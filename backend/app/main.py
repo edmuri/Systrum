@@ -25,5 +25,9 @@ Secret = os.getenv('clientSecret')
 def root():
     return ''
 
+@app.route('/getSong',methods=['GET'])
+def getSong():
+    return
+
 
 
