@@ -1,8 +1,8 @@
 
 
 #these are for the server (calling api and parsing)
-from flask import Flask
-from flask_cors import CORS
+# from flask import Flask
+# from flask_cors import CORS
 from flask import request,jsonify
 import json
 from requests import get,post,put
@@ -11,9 +11,9 @@ from requests import get,post,put
 import os
 from dotenv import load_dotenv
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
-CORS(app)
+# CORS(app)
 
 #fetching the api credentials for the calls
 load_dotenv()
@@ -28,8 +28,10 @@ Secret = os.getenv('clientSecret')
 # Hello
 # '''
 
-@app.route('/getSong',methods=['GET'])
+# @app.route('/getSong',methods=['GET'])
 def getSong():
+    # first check the database
+        
     return
 
 
