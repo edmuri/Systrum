@@ -29,7 +29,7 @@ Secret = os.getenv('clientSecret')
 # '''
 
 # @app.route('/getSong',methods=['GET'])
-def getSong():
+def callSong(genre = None):
     # first check the database
         
     return
