@@ -34,7 +34,7 @@ def createPlaylist():
 
 @app.route('/getSong',methods=['GET'])
 def getSong():
-    songObject = calls.callSong()
+    #songObject = calls.callSong()
     return
 
 
