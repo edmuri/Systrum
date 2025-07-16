@@ -25,51 +25,56 @@ ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://localhost:5000/callback"
 
-# @app.route('/')
-# def root():
-#     return 
-# '''
-# Hello
-# '''
+'''
+    get_client_credentials: gets the access token that allows us to access public 
+                            non-user specific information.
+    parameters - NONE
+    returns - access token acquired from the api call
+'''
+def get_client_credentials():
+    #endpoint that will get us the access token
+    endpoint = "https://accounts.spotify.com/api/token"
 
-def get_auth_code():
-
-    query_url = "https://accounts.spotify.com/authorize?"
-
-    query_string ={
-        "response_type": 'code',
-        "client_id": ID,
-        "redirect_uri":Redirect,
-    }
-    full_query_url = query_url + urlencode(query_string)
-    response = get(full_query_url)
-    print(response.url)
-
-def get_token(auth_code):
-
-    access_string = ID + ":" + Secret
+    #string needs to be encoded in base64 as per spotify documentation
+    #this is where i build the final full string that gets passed into the call
+    access_string =ID + ":" + Secret
     query_string = str(base64.b64encode(access_string.encode("utf-8")), "utf-8")
+    full_string =  "Basic " + query_string
 
-    api_url = "https://accounts.spotify.com/api/token"
-    header = {
-        "Authorization" : "Basic" + query_string,
-        "content-type" : "application/x-www-form-urlencoded"
-    }
     query_data = {
-        "code": auth_code,
-        "redirect_uri" : Redirect,
-        "grant_type": "authorization_code"
+        "grant_type":"client_credentials"
     }
-    response = post(api_url, headers=header, data=query_data)
-    
-    if response != 200:
-        print("Not working")
+
+    query_header = {
+        "Authorization" : full_string,
+        "Content-Type":"application/x-www-form-urlencoded"
+    }
+
+    #call
+    response = post(endpoint,headers=query_header,data=query_data)
+
+    print(response)
+    #will only continue if we receive a successful call, returns the access token
+    '''
+        This is how we receive the response.content
+        {
+            "access_token": token,
+            "token_type":"Bearer",
+            "expires_in":3600
+        }
+    '''
+    if response.status_code == 200:
+        response_content = json.loads(response.content)
+        # print(response_content)
+        token = (response_content)['access_token']
+        # print(token)
+        return token
     else:
-        json_results = json.load(response.content)
-        print(json_results)
-# @app.route('/getSong',methods=['GET'])
-def callSong():
-    # first check the database
+        print("Error receiving access token")
+        return None
+
+def search_for_song(name):
+    
         
     return
 

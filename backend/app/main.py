@@ -20,15 +20,27 @@ def root():
 
 @app.route('/createPlaylist', methods=['GET'])
 def createPlaylist():
-    sentence = request.sentence
+    #this will get changed once we see how data will be communicated
+    sentence = request.data
 
     sentenceTree = []
     words = sentence.split(" ")
 
     #this is where we will make the tree? for the sentence breakdown
 
-    #for each node with an individual word, check the sql db
-    #if returns none, then call the api
+    for word in sentenceTree:
+        print(word)
+        #check db
+        #if db returns something
+            #continue
+        #else
+            #call the api
+            #if api returns something
+                #continue
+            #else
+                #go up to next node to include the following in search
+                #if we go the whole phrase unable to find a match
+                    #return unable to make playlist
     
     return
 
