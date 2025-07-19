@@ -13,6 +13,13 @@ CORS(app)
 
 #create the node class that will hold the word and combinations
 
+class Node:
+    def __init__(self, words):
+        left = None
+        right = None
+        parent = None
+        sentence = words
+
 @app.route('/')
 def root():
     return
@@ -21,12 +28,13 @@ def root():
 @app.route('/createPlaylist', methods=['GET'])
 def createPlaylist():
     #this will get changed once we see how data will be communicated
-    sentence = request.data
-
+    # sentence = request.data
+    sentence = "Zombieboy Happy Fun"
     sentenceTree = []
     words = sentence.split(" ")
-
     #this is where we will make the tree? for the sentence breakdown
+
+
 
     for word in sentenceTree:
         print(word)

@@ -73,14 +73,33 @@ def get_client_credentials():
         print("Error receiving access token")
         return None
 
+
+'''
+    search_for_song: calls the spotify api to search for a song matching the given name
+    parameters - the name of the song that will be searched for
+    returns - an json object that will contain the spotify link, song name, spotify id for song
+
+    This will be eventually changed slightly to incorporate filtering
+'''
+'''
+    return will look as follows 
+
+    {
+     "name" : "Zombieboy",
+     "url" : "http://spotify.com/zombieboy",
+     "id" : fhhjwis1242
+    }
+'''
 def search_for_song(name):
     token = get_client_credentials()
 
     if token == None:
         print("No can do!")
+        return None
         
     endpoint = "https://api.spotify.com/v1/search"
 
+    # looks for the first track with a matching name
     data = {
         "q" : name,
         "type": "track",
@@ -94,16 +113,22 @@ def search_for_song(name):
     song_result = json.loads(response.content)
     
     if response.status_code != 200:
-        print("None")
+        return None
 
     tmp = song_result["tracks"]["items"]
     print(name)
-    print(tmp[0]["album"]["images"][0])
-    print(tmp[0]["external_urls"])
-    print(tmp[0]["id"])
-    return
-        
-    return
+
+    results = {
+        "name":name,
+        "url":tmp[0]["external_urls"],
+        "id":tmp[0]["id"]
+    }
+
+    # print(tmp[0]["album"]["images"][0])
+    # print(tmp[0]["external_urls"])
+    # print(tmp[0]["id"])
+    return results
+
 
 
 
