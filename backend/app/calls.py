@@ -74,7 +74,34 @@ def get_client_credentials():
         return None
 
 def search_for_song(name):
+    token = get_client_credentials()
+
+    if token == None:
+        print("No can do!")
+        
+    endpoint = "https://api.spotify.com/v1/search"
+
+    data = {
+        "q" : name,
+        "type": "track",
+        "limit":1
+    }
+    header = {
+        "Authorization" : f"Bearer {token}"
+    }
+
+    response = get(endpoint,params=data,headers=header)
+    song_result = json.loads(response.content)
     
+    if response.status_code != 200:
+        print("None")
+
+    tmp = song_result["tracks"]["items"]
+    print(name)
+    print(tmp[0]["album"]["images"][0])
+    print(tmp[0]["external_urls"])
+    print(tmp[0]["id"])
+    return
         
     return
 
