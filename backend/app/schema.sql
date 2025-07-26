@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS songs;
+
+CREATE TABLE songs(
+    name TEXT NOT NULL,
+    url TEXT NOT NULL,
+    id INTEGER PRIMARY KEY NOT NULL,
+);
