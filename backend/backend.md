@@ -8,7 +8,7 @@ python -m venv env
 pip install -r requirements.txt
 cd app 
 set FLASK_APP=backend.py
-flask --app backend.py --debug run
+flask --app main.py --debug run
 
 MAC:
 
@@ -18,4 +18,4 @@ source env/bin/activate
 pip install -r requirements.txt 
 cd app 
 set FLASK_APP=backend.py
-flask --app backend.py --debug run
+flask --app main.py --debug run

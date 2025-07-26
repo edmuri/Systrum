@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<main>
+    <body>
+        <input id = "input bar">
+        <button id = "send" onclick="createPlaylist()">
+            Send
+        </button>
+    </body>
+</main>
+
+<script>
+    async function createPlaylist(){
+        let response = await fetch('http://127.0.0.1:5000/createPlaylist')
+    }
+</script>

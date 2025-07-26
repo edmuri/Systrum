@@ -22,10 +22,11 @@ class Node:
 
 @app.route('/')
 def root():
-    return
+    createPlaylist()
+    return "ALL DONE"
 
 
-@app.route('/createPlaylist', methods=['GET'])
+# @app.route('/createPlaylist', methods=['GET'])
 def createPlaylist():
     #this will get changed once we see how data will be communicated
     # sentence = request.data
@@ -36,13 +37,14 @@ def createPlaylist():
 
 
 
-    for word in sentenceTree:
+    for word in words:
         print(word)
         #check db
         #if db returns something
             #continue
         #else
             #call the api
+        print(calls.search_for_song(word))
             #if api returns something
                 #continue
             #else
