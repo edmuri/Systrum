@@ -7,7 +7,8 @@ python -m venv env
 .\env\Scripts\activate
 pip install -r requirements.txt
 cd app 
-set FLASK_APP=backend.py
+python init_db.py
+set FLASK_APP=main.py
 flask --app main.py --debug run
 
 MAC:
