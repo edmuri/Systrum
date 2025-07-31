@@ -7,8 +7,12 @@ from flask import request,jsonify
 import json
 from db import get_db
 from requests import get,post,put
+import os
 
 app = Flask(__name__)
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+app.config['DATABASE'] = os.path.join(BASE_DIR, 'database.db')
 
 CORS(app)
 
@@ -37,24 +41,31 @@ def createPlaylist():
     #this is where we will make the tree? for the sentence breakdown
 
 
-
     for word in words:
-        print(word)
+        #print(word)
 
         #check db
         db = get_db()
-        song_matches_from_db = db.execute("SELECT name FROM songs WHERE name = ?"),
-        (word,).fetchall()
+        song_matches_from_db = db.execute('SELECT name FROM songs WHERE name = ?',
+        (word,)).fetchall()
 
-        if song_matches_from_db is not None:
+        if len(song_matches_from_db) > 0:
+            print("song found in db")
             continue
 
         else:
             #call the api
             print(calls.search_for_song(word))
             returned_songs = calls.search_for_song(word)
-            if returned_songs is not None:
-                continue
+
+            # add the new song to the database
+            db.execute('INSERT INTO songs (name, url, id) VALUES (?, ?, ?)', 
+                       (returned_songs["name"], returned_songs["url"], returned_songs["id"]))
+            db.commit()
+
+            # this might not work so i commented it out for now. feel free to fix it idk 
+            #if returned_songs is not None:
+            #    continue
             #else
                 #go up to next node to include the following in search
                 #if we go the whole phrase unable to find a match

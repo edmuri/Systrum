@@ -116,11 +116,13 @@ def search_for_song(name):
         return None
 
     tmp = song_result["tracks"]["items"]
-    print(name)
+    # print(name)
+
+    url = tmp[0]["external_urls"]["spotify"]
 
     results = {
         "name":name,
-        "url":tmp[0]["external_urls"],
+        "url":url,
         "id":tmp[0]["id"]
     }
 
