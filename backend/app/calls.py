@@ -53,7 +53,6 @@ def get_client_credentials():
     #call
     response = post(endpoint,headers=query_header,data=query_data)
 
-    print(response)
     #will only continue if we receive a successful call, returns the access token
     '''
         This is how we receive the response.content
