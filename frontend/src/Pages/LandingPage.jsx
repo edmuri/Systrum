@@ -6,7 +6,10 @@ const LandingPage = () => {
     return(
         <div className = "landingPage">
             <div className = "upperSection">
-                <h3>HELLO</h3>
+                <h3 id="Text">HELLO</h3>
+            </div>
+            <div className = "middleSection">
+                <h2>WHAT</h2>
             </div>
         </div>
     )
