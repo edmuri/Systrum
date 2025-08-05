@@ -11,7 +11,6 @@ const CreatePlaylistPage = () =>{
 
     const handleCreatePlaylist = () => {
         let path = "/WaitingPage";
-        
         navigate(path);
     };
 
