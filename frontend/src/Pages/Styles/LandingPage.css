@@ -1,17 +1,24 @@
 
 .landingPage{
     display:flex;
+    align-items: center;
     background-color: #292828;
     height:100vh;
-    margin:0;
+    padding:5%;
 }
-/* .upperSection{
+.upperSection{
     background-color:clear;
-    height: 50%;
 }
-.middleSection{
-    background-color:blue;
-} */
+.buttonSection{
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-items: space-between;
+}
+.button{
+    background-color:#100775;
+    border-radius: 50px;
+}
 #Text{
     color:white;
 }

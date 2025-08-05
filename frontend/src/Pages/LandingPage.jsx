@@ -24,14 +24,15 @@ const LandingPage = () => {
 
     return(
         <div className = "landingPage">
-            <div className = "upperSection">
-                <h3 id="Text">HELLO</h3>
-            </div>
-            <div className = "middleSection">
-                <h2>WHAT</h2>
-                <button onClick={handleToPlaylist}>createPlaylist</button>
-                <button onClick={handleToAbout}>About</button>
-                <button onClick={handleToCreators}>Creators</button>
+            <div className = "upperSection"></div>
+            <div className = "buttonSection">
+                <button 
+                    onClick={handleToPlaylist}
+                    className="button">createPlaylist</button>
+                <button onClick={handleToAbout}
+                    className="button">About</button>
+                <button onClick={handleToCreators}
+                    className="button">Creators</button>
             </div>
         </div>
     )
