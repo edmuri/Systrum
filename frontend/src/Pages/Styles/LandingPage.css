@@ -1,23 +1,32 @@
 
 .landingPage{
-    display:flex;
-    align-items: center;
     background-color: #292828;
     height:100vh;
-    padding:5%;
 }
-.upperSection{
-    background-color:clear;
-}
+
 .buttonSection{
-    height:100%;
+    height: 100%;
+    /* background-color:pink; */
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-items: space-between;
+    row-gap: 10%;
+    align-items: space-between;
+    padding: 10%;
+    /* margin:5%; */
 }
 .button{
     background-color:#100775;
+    height:13%;
+    width:50%;
+    border-color: black;
     border-radius: 50px;
+    cursor: pointer;
+    transition: border-color background-color 0.9s ease;
+}
+.button:hover{
+    border-color:azure;
+    background-color:#1a0da6
 }
 #Text{
     color:white;

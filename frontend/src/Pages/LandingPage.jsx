@@ -24,7 +24,6 @@ const LandingPage = () => {
 
     return(
         <div className = "landingPage">
-            <div className = "upperSection"></div>
             <div className = "buttonSection">
                 <button 
                     onClick={handleToPlaylist}
