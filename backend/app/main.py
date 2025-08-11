@@ -56,7 +56,7 @@ def createPlaylist():
             print("song found in db")
 
             #adding to create a results list to return
-            results.append(song_matches_from_db)
+            results.append(song_matches_from_db[0]['name'])
 
             continue
 
