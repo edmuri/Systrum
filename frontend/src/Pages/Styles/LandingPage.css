@@ -1,33 +1,19 @@
+/* Pages/Styles/LandingPage.css */
+@import '../../styles/variables.css';
 
-.landingPage{
-    background-color: #292828;
-    height:100vh;
+.landing-page {
+  min-height: 100vh;
+  background: var(--background-primary);
 }
 
-.buttonSection{
-    height: 100%;
-    /* background-color:pink; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 10%;
-    align-items: space-between;
-    padding: 10%;
-    /* margin:5%; */
+/* features section */
+.landing-features {
+  padding: var(--spacing-3xl) 0;
+  background: var(--background-secondary);
 }
-.button{
-    background-color:#100775;
-    height:13%;
-    width:50%;
-    border-color: black;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: border-color background-color 0.9s ease;
-}
-.button:hover{
-    border-color:azure;
-    background-color:#1a0da6
-}
-#Text{
-    color:white;
+
+.landing-features__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
 }
