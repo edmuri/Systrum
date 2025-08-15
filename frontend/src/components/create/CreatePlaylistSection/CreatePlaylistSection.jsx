@@ -32,7 +32,19 @@ const CreatePlaylistSection = () => {
   }, []);
 
   const handleCreatePlaylist = async () => {
-    //idek yet
+
+        let response = await fetch(`http://127.0.0.1:5000/createPlaylist?sentence=${sentence}`,{
+            method:'GET',
+            mode: 'cors',
+            headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            }
+        })
+
+        let data = await response.json();
+
+        console.log(data);
   };
 
   const handleInputChange = (e) => {
