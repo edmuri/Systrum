@@ -1,0 +1,227 @@
+/* src/components/about/AboutSection/AboutSection.css - FIXED VERTICAL LAYOUT */
+@import '../../../styles/variables.css';
+
+.about-section {
+    position: relative;
+    width: 100%;
+    /* REMOVED min-height: 100vh - this was causing the stretching */
+    background: linear-gradient(180deg, #0e0f0e 0%, #0b0b0b 60%, #0a0a0a 100%);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    padding: 60px 20px; /* Reduced from 40px to make it more compact */
+    box-sizing: border-box;
+}
+
+.about-section__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Background effects */
+.about-section__bg,
+.about-section__shapes,
+.about-section__notes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.about-section__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 600px at 50% -10%, rgba(114, 227, 166, 0.14), transparent 55%);
+}
+
+/* Shape animations */
+.shape {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(29,185,84,0.12);
+    filter: blur(25px);
+}
+
+.shape--lg { width: 300px; height: 300px; }
+.shape--md { width: 200px; height: 200px; }
+.shape--sm { width: 150px; height: 150px; }
+
+.shape--tl { top: 10%; left: 10%; }
+.shape--br { right: 10%; bottom: 10%; }
+.shape--l { top: 50%; left: 20%; }
+
+/* Notes */
+.note {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    color: #7ee2ad;
+    opacity: 0.12;
+}
+
+.note--a { top: 20%; left: 15%; }
+.note--b { bottom: 25%; right: 20%; }
+.note--c { top: 60%; right: 35%; }
+
+/* Hero section */
+.about-section__hero {
+    text-align: center;
+    margin-bottom: 60px; /* Reduced from 80px */
+}
+
+.about-section__title {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 30px; /* Reduced from 40px */
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: white;
+}
+
+.title-accent svg {
+    width: 0.7em;
+    height: 0.7em;
+    color: var(--spotify-green);
+}
+
+.about-section__description {
+    max-width: 700px;
+    margin: 0 auto;
+    color: #a5b2ab;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.about-section__description strong {
+    color: white;
+    font-weight: 700;
+}
+
+/* Section titles */
+.section-title {
+    text-align: center;
+    margin: 0 0 30px; /* Reduced from 40px */
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* Features section */
+.about-section__features {
+    margin-bottom: 60px; /* Reduced from 80px */
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Tech stack section */
+.about-section__tech {
+    margin-bottom: 60px; /* Reduced from 80px */
+}
+
+.tech-stack {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Reduced from 40px */
+}
+
+.tech-category {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 25px; /* Reduced from 30px */
+}
+
+.tech-category__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px; /* Reduced from 20px */
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--spotify-green);
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+/* Mission section */
+.about-section__mission {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px; /* Added some bottom margin */
+}
+
+.mission-card {
+    text-align: center;
+    max-width: 400px;
+    padding: 30px; /* Reduced from 40px */
+    background: rgba(29, 185, 84, 0.05);
+    border: 1px solid rgba(29, 185, 84, 0.2);
+    border-radius: 16px;
+}
+
+.mission-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    background: var(--spotify-green);
+    border-radius: 50%;
+    color: black;
+}
+
+.mission-card__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 40px 10px; /* Reduced padding for mobile */
+    }
+    
+    .about-section__hero {
+        margin-bottom: 40px;
+    }
+    
+    .about-section__features,
+    .about-section__tech {
+        margin-bottom: 40px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tech-category {
+        padding: 20px;
+    }
+    
+    .about-section__description {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,33 @@
+/* src/pages/Styles/AboutPage.css - ENABLE SCROLLING */
+@import '../../styles/variables.css';
+
+.about-page {
+    width: 100%;
+    /* REMOVED min-height: 100vh */
+    background: var(--background-primary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    
+    /* FORCE SCROLLING TO WORK */
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    max-height: none !important;
+}
+
+/* Ensure smooth scrolling */
+.about-page {
+    scroll-behavior: smooth;
+}
+
+/* Global resets for about page */
+.about-page * {
+    box-sizing: border-box;
+}
+
+/* Make sure the page can scroll on mobile too */
+@media (max-width: 768px) {
+    .about-page {
+        overflow-y: auto;
+    }
+}

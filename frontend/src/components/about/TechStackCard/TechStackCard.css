@@ -1,0 +1,67 @@
+/* src/components/about/TechStackCard/TechStackCard.css - SIMPLIFIED */
+@import '../../../styles/variables.css';
+
+.tech-stack-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.tech-stack-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(29, 185, 84, 0.3);
+    background: rgba(29, 185, 84, 0.05);
+}
+
+.tech-stack-card__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.tech-stack-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(29, 185, 84, 0.1);
+    border: 1px solid rgba(29, 185, 84, 0.2);
+    border-radius: 6px;
+    color: var(--spotify-green);
+}
+
+.tech-stack-card__name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.tech-stack-card__description {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #a5b2ab;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .tech-stack-card {
+        padding: 16px;
+    }
+    
+    .tech-stack-card__icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .tech-stack-card__name {
+        font-size: 0.9rem;
+    }
+}
