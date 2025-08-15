@@ -118,11 +118,18 @@ def search_for_song(name):
     # print(name)
 
     url = tmp[0]["external_urls"]["spotify"]
+    albumCover = tmp[0]["album"]["images"][0]['url']
+    id = tmp[0]["id"]
+    artist = tmp[0]['artists'][0]['name']
+    album = tmp[0]["album"]['name']
 
     results = {
         "name":name,
+        "artist": artist,
+        "album" : album,
+        "cover": albumCover,
         "url":url,
-        "id":tmp[0]["id"]
+        "id":id
     }
 
     # print(tmp[0]["album"]["images"][0])
