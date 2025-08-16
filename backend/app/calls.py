@@ -93,7 +93,7 @@ def search_for_song(name):
     token = get_client_credentials()
 
     if token == None:
-        print("No can do!")
+        print("Token not properly returned")
         return None
         
     endpoint = "https://api.spotify.com/v1/search"
