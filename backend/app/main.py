@@ -58,7 +58,17 @@ def createPlaylist():
 
             #adding to create a results list to return
             # need to 
-            results.append([song_matches_from_db[0]['name'],song_matches_from_db[0]['url']])
+            # results.append([song_matches_from_db[0]['name'],song_matches_from_db[0]['url']])
+
+            formatted_db_result = {
+                "name":song_matches_from_db[0]['name'],
+                # "artist": artist,
+                # "album" : album,
+                # "cover": albumCover,
+                 "url":song_matches_from_db[0]['url']
+                # "id":id
+             }
+            results.append(formatted_db_result)
 
             continue
 
@@ -82,13 +92,22 @@ def createPlaylist():
                     #return unable to make playlist
             '''
     # print(results)
+    calls.authorize_user()
+    # calls.get_user_profile()
     
     return jsonify(results),200
 
 @app.route('/getSong',methods=['GET'])
 def getSong():
-    #songObject = calls.callSong()
+    song=request.args.get("song")
     return
+
+@app.route('/callback',methods=['POST'])
+def handle_callback():
+    code = request.args.get("code")
+    calls.set_user_code(code)
+
+    return jsonify({"Response":"All good"}),200
 
 
 

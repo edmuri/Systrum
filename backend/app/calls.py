@@ -23,7 +23,8 @@ from dotenv import load_dotenv
 load_dotenv()
 ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
-Redirect = "http://localhost:5000/callback"
+Redirect = "http://127.0.0.1:5000/callback"
+auth_code = ""
 
 '''
     get_client_credentials: gets the access token that allows us to access public 
@@ -137,6 +138,42 @@ def search_for_song(name):
     # print(tmp[0]["id"])
     return results
 
+def get_user_profile():
 
+    token = get_client_credentials()
 
+    endpoint = "https://api.spotify.com/v1/me"
+    
+    header = {
+        "Authorization" : f"Bearer {token}"
+    }
+
+    response = get(endpoint,headers=header)
+
+    response = json.loads(response.content)
+
+    print(response)
+
+    return
+
+def authorize_user():
+    scope = "playlist-modify-public"
+    
+    endpoint = "https://accounts.spotify.com/authorize?"
+
+    query_string = {
+        "response_type":'code',
+        "client_id":ID,
+        "scope":scope,
+        "redirect_uri":Redirect
+    }
+
+    full_query = endpoint + urlencode(query_string)
+    
+    response = get(full_query)
+    print(response.url)
+
+def set_user_code(code):
+    auth_code = code
+    return
 
