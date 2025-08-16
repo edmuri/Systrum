@@ -78,9 +78,21 @@ def createPlaylist():
             returned_songs = calls.search_for_song(word)
             
             # add the new song to the database
-            db.execute('INSERT INTO songs (name, url, id) VALUES (?, ?, ?)', 
-                       (returned_songs["name"], returned_songs["url"], returned_songs["id"]))
+            db.execute('INSERT INTO songs (name, url, id, artist, album_name) VALUES (?, ?, ?, ?, ?)', 
+                       (returned_songs["name"], returned_songs["url"], returned_songs["id"], 
+                        returned_songs["artist"], returned_songs["album"]))
             db.commit()
+
+            # check if album cover has already been added to covers table
+            cover_matches_from_db = db.execute('SELECT album FROM covers WHERE artist = ? AND album = ?',
+                                               (returned_songs["artist"], returned_songs["album"],)).fetchone()
+            
+            # if not found, we create a new entry.
+            if len(cover_matches_from_db) == 0:
+                db.execute('INSERT INTO covers (album, artist, link) VALUES (?, ?, ?)',
+                           (returned_songs["album"], returned_songs["artist"], returned_songs["cover"]))
+                db.commit()
+
             results.append(returned_songs)
             '''
             # this might not work so i commented it out for now. feel free to fix it idk 
