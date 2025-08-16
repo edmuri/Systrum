@@ -195,6 +195,7 @@ def set_user_token(code):
     }
 
     response = post(url=endpoint, params=data, headers=header)
+    print("Trying to get access code")
     print(response.content)
 
 

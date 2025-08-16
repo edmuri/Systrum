@@ -49,7 +49,7 @@ def createPlaylist():
 
         #check db
         db = get_db()
-        song_matches_from_db = db.execute('SELECT name,url FROM songs WHERE name = ?',
+        song_matches_from_db = db.execute('SELECT name,artist,album_name,id,url FROM songs WHERE name = ?',
         (word,)).fetchall()
 
         #if song is found then this will skip to the next word
@@ -59,14 +59,19 @@ def createPlaylist():
             #adding to create a results list to return
             # need to 
             # results.append([song_matches_from_db[0]['name'],song_matches_from_db[0]['url']])
+            artist = song_matches_from_db[0]['artist']
+            album = song_matches_from_db[0]['album_name']
 
+            cover = db.execute('SELECT link FROM covers WHERE artist = ? AND album_name = ?',
+                                               (artist, album,)).fetchone()
+            
             formatted_db_result = {
                 "name":song_matches_from_db[0]['name'],
-                # "artist": artist,
-                # "album" : album,
-                # "cover": albumCover,
-                 "url":song_matches_from_db[0]['url']
-                # "id":id
+                "artist": artist,
+                "album" : album,
+                "cover": cover[0],
+                "url":song_matches_from_db[0]['url'],
+                "id":song_matches_from_db[0]['id']
              }
             results.append(formatted_db_result)
 
@@ -74,7 +79,8 @@ def createPlaylist():
 
         else:
             #call the api
-            print(calls.search_for_song(word))
+            # print(calls.search_for_song(word))
+            print("calling api")
             returned_songs = calls.search_for_song(word)
             
             # add the new song to the database
@@ -84,12 +90,12 @@ def createPlaylist():
             db.commit()
 
             # check if album cover has already been added to covers table
-            cover_matches_from_db = db.execute('SELECT album FROM covers WHERE artist = ? AND album = ?',
+            cover_matches_from_db = db.execute('SELECT link FROM covers WHERE artist = ? AND album_name = ?',
                                                (returned_songs["artist"], returned_songs["album"],)).fetchone()
             
             # if not found, we create a new entry.
-            if len(cover_matches_from_db) == 0:
-                db.execute('INSERT INTO covers (album, artist, link) VALUES (?, ?, ?)',
+            if cover_matches_from_db == None or len(cover_matches_from_db) == 0:
+                db.execute('INSERT INTO covers (album_name, artist, link) VALUES (?, ?, ?)',
                            (returned_songs["album"], returned_songs["artist"], returned_songs["cover"]))
                 db.commit()
 
@@ -104,8 +110,8 @@ def createPlaylist():
                     #return unable to make playlist
             '''
     # print(results)
-    calls.authorize_user()
-    calls.get_user_profile()
+    # calls.authorize_user()
+    # calls.get_user_profile()
     
     return jsonify(results),200
 
