@@ -105,7 +105,7 @@ def createPlaylist():
             '''
     # print(results)
     calls.authorize_user()
-    # calls.get_user_profile()
+    calls.get_user_profile()
     
     return jsonify(results),200
 
@@ -114,10 +114,11 @@ def getSong():
     song=request.args.get("song")
     return
 
-@app.route('/callback',methods=['POST'])
+@app.route('/callback')
 def handle_callback():
     code = request.args.get("code")
-    calls.set_user_code(code)
+    print("In callback function")
+    calls.set_user_token(code)
 
     return jsonify({"Response":"All good"}),200
 

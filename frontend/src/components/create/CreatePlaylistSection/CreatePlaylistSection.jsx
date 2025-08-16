@@ -45,6 +45,10 @@ const CreatePlaylistSection = () => {
         let data = await response.json();
 
         console.log(data);
+
+        // let path = "/About"
+        // useNavigate(path);
+        navigate('/AboutPage');
   };
 
   const handleInputChange = (e) => {

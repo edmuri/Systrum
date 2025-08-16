@@ -3,7 +3,7 @@
 #these are for the server (calling api and parsing)
 # from flask import Flask
 # from flask_cors import CORS
-from flask import request,jsonify
+from flask import request,jsonify,session
 import json
 from requests import get,post,put
 import base64
@@ -24,7 +24,11 @@ load_dotenv()
 ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://127.0.0.1:5000/callback"
-auth_code = ""
+
+def encode_to_64(string):
+    bytes_version = string.encode('utf-8')
+    encoded = base64.b64encode(bytes_version)
+    return encoded
 
 '''
     get_client_credentials: gets the access token that allows us to access public 
@@ -173,7 +177,26 @@ def authorize_user():
     response = get(full_query)
     print(response.url)
 
-def set_user_code(code):
-    auth_code = code
+def set_user_token(code):
+    
+    endpoint = "https://accounts.spotify.com/api/token"
+
+    data = {
+        "grant_type":"authorization_code",
+        "code":code,
+        "redirect_uri":Redirect
+    }
+
+    Authorization = encode_to_64(ID + ":" + Secret)
+
+    header = {
+        "Authorization": Authorization,
+        "Content-Type":"application/x-www-form-urlencoded"
+    }
+
+    response = post(url=endpoint, params=data, headers=header)
+    print(response.content)
+
+
     return
 
