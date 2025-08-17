@@ -80,7 +80,10 @@ def createPlaylist():
         else:
             #call the api
             # print(calls.search_for_song(word))
+<<<<<<< Updated upstream
             print("calling api")
+=======
+>>>>>>> Stashed changes
             returned_songs = calls.search_for_song(word)
             
             # add the new song to the database

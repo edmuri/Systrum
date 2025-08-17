@@ -137,9 +137,6 @@ def search_for_song(name):
         "id":id
     }
 
-    # print(tmp[0]["album"]["images"][0])
-    # print(tmp[0]["external_urls"])
-    # print(tmp[0]["id"])
     return results
 
 def get_user_profile():

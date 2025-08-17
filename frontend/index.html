@@ -14,6 +14,15 @@
 
 <!-- <script>
     async function createPlaylist(){
-        let response = await fetch('http://127.0.0.1:5000/createPlaylist')
+        let response = await fetch('http://127.0.0.1:5000/createPlaylist',
+            {method: "GET",
+                mode:"cors",
+                headers : {
+                        "Content-Type":"application/json",
+                        "Accept":"application/json"
+                },
+                body:
+            }
+        )
     }
 </script> -->
