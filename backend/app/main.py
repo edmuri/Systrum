@@ -3,13 +3,18 @@
 import calls,db
 from flask import Flask
 from flask_cors import CORS
-from flask import request,jsonify
+from flask import request,jsonify,session,redirect
 import json
 from db import get_db
 from requests import get,post,put
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+load_dotenv()
+
+# app.secret_key = os.getenv("session_secret_key")
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['DATABASE'] = os.path.join(BASE_DIR, 'database.db')
@@ -111,7 +116,8 @@ def createPlaylist():
             '''
     # print(results)
     # calls.authorize_user()
-    # calls.get_user_profile()
+    calls.send_playlist(results)
+    
     
     return jsonify(results),200
 
@@ -120,13 +126,19 @@ def getSong():
     song=request.args.get("song")
     return
 
+@app.route('/authorizeUser',methods=['GET'])
+def authorize():
+    link = calls.authorize_user()
+    print("\nMade it\n")
+    return redirect(link)
+
 @app.route('/callback')
 def handle_callback():
     code = request.args.get("code")
     print("In callback function")
     calls.set_user_token(code)
-
-    return jsonify({"Response":"All good"}),200
+    print("back out")
+    return redirect('http://localhost:3000/CreatePlaylist')
 
 
 
