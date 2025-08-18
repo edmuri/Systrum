@@ -11,3 +11,9 @@ CREATE TABLE covers(
     artist TEXT NOT NULL,
     link TEXT NOT NULL
 );
+
+CREATE TABLE tokens(
+    user_id TEXT NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL
+)

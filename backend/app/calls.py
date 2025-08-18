@@ -3,12 +3,13 @@
 #these are for the server (calling api and parsing)
 # from flask import Flask
 # from flask_cors import CORS
-from flask import request,jsonify,session
+from flask import session
 import json
 from requests import get,post,put
 import base64
 from urllib.parse import urlencode
-
+import db
+from db import get_db
 
 
 #these two allow us to get the api keys from the env file
@@ -25,10 +26,31 @@ ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://127.0.0.1:5000/callback"
 
+
 def encode_to_64(string):
     bytes_version = string.encode('utf-8')
-    encoded = base64.b64encode(bytes_version)
+    encoded = str(base64.b64encode(bytes_version), "utf-8")
     return encoded
+
+def refresh_token():
+    endpoint = "https://accounts.spotify.com/api/token"
+
+    # print(session.get('refresh_token'))
+    # print("Access" + session.get('access_token'))
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization":f"Basic {encode_to_64(ID + ':' + Secret)}"
+    }
+    data = {
+        "grant_type":"refresh_token",
+        "refresh_token":refresh_token,
+    }
+
+    response = post(url=endpoint, headers=headers, data=data)
+    results = json.loads(response.content)
+    print(results)
+
+
 
 '''
     get_client_credentials: gets the access token that allows us to access public 
@@ -139,26 +161,28 @@ def search_for_song(name):
 
     return results
 
-def get_user_profile():
+def get_user_id():
 
-    token = get_client_credentials()
+    refresh_token()
 
     endpoint = "https://api.spotify.com/v1/me"
     
     header = {
-        "Authorization" : f"Bearer {token}"
+        "Authorization" : f"Bearer {session.get('access_token')}"
     }
 
     response = get(endpoint,headers=header)
 
     response = json.loads(response.content)
 
+
+
     print(response)
 
-    return
+    return response['id']
 
 def authorize_user():
-    scope = "playlist-modify-public"
+    scope = "playlist-modify-public user-read-private"
     
     endpoint = "https://accounts.spotify.com/authorize?"
 
@@ -172,7 +196,7 @@ def authorize_user():
     full_query = endpoint + urlencode(query_string)
     
     response = get(full_query)
-    print(response.url)
+    return response.url
 
 def set_user_token(code):
     
@@ -187,14 +211,69 @@ def set_user_token(code):
     Authorization = encode_to_64(ID + ":" + Secret)
 
     header = {
-        "Authorization": Authorization,
+        "Authorization": "Basic " + Authorization,
         "Content-Type":"application/x-www-form-urlencoded"
     }
-
-    response = post(url=endpoint, params=data, headers=header)
     print("Trying to get access code")
-    print(response.content)
+    response = post(url=endpoint, params=data, headers=header)
+   
+    results = json.loads(response.content)
+    # session["access_token"]=results["access_token"]
+    # session["refresh_token"]=results["refresh_token"]
+    # access_token = results["access_token"]
+    # refresh_token = results["refresh_token"]
 
+    # user_id = get_user_id(access_token,refresh_token)
+
+    # db.execute('INSERT INTO tokens (user_id, access_token, refresh_token) VALUES (?, ?, ?)', 
+    #                    (user_id,access_token,refresh_token))
+    # db.commit()
+
+    
 
     return
+
+def create_empty_playlist():
+    id = get_user_id()
+    print("after get id")
+
+    endpoint = f'https://api.spotify.com/v1/users/{id}/playlists'
+    header = {
+        "Authorization": f"Bearer {session.get('access_token')}",
+        "Content-Type": "application/json"
+    }
+    data={
+        "name" : "Testing",
+        "description":"testing",
+        "public":"true"
+    }
+
+    request = post(url=endpoint,headers=header,params=data)
+    results=json.loads(request.content)
+    return results["id"]
+
+
+def send_playlist(list):
+   access_token = session.get('access_token')
+   refresh_token = session.get('refresh_token')
+
+   id = create_empty_playlist()
+   print("after get playlist id")
+   return
+#    endpoint = f"https://api.spotify.com/v1/playlists/{id}/tracks"
+
+
+#    header = {
+#        "Authorization": f"Bearer {session.get("access_token")}",
+#        "Content-Type": "application/json"
+#    }
+
+#    data = {
+       
+#    }
+
+
+
+
+   
 
