@@ -32,11 +32,25 @@ def encode_to_64(string):
     encoded = str(base64.b64encode(bytes_version), "utf-8")
     return encoded
 
-def refresh_token():
+def get_id_from_db(user_id):
+    spotify_id = ""
+    ##call db for spotify id using passed in user_id
+        #at this point it should always return an id
+    return spotify_id
+
+def get_token_from_db(user_id):
+    token=""
+    #call db for access token using user_id
+        #at this point it should always return a token
+    return token
+
+def refresh_token(user_id):
     endpoint = "https://accounts.spotify.com/api/token"
 
-    # print(session.get('refresh_token'))
-    # print("Access" + session.get('access_token'))
+    '''
+    ACCESS DB FOR refresh token
+    
+    '''
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization":f"Basic {encode_to_64(ID + ':' + Secret)}"
@@ -48,7 +62,11 @@ def refresh_token():
 
     response = post(url=endpoint, headers=headers, data=data)
     results = json.loads(response.content)
-    print(results)
+    # print(results)
+
+    if response.status_code == 200:
+        #update the access token and refresh token using the user_id
+        return "ALL GOOD"
 
 
 
@@ -161,26 +179,6 @@ def search_for_song(name):
 
     return results
 
-def get_user_id():
-
-    refresh_token()
-
-    endpoint = "https://api.spotify.com/v1/me"
-    
-    header = {
-        "Authorization" : f"Bearer {session.get('access_token')}"
-    }
-
-    response = get(endpoint,headers=header)
-
-    response = json.loads(response.content)
-
-
-
-    print(response)
-
-    return response['id']
-
 def authorize_user():
     scope = "playlist-modify-public user-read-private"
     
@@ -218,24 +216,46 @@ def set_user_token(code):
     response = post(url=endpoint, params=data, headers=header)
    
     results = json.loads(response.content)
-    # session["access_token"]=results["access_token"]
-    # session["refresh_token"]=results["refresh_token"]
-    # access_token = results["access_token"]
-    # refresh_token = results["refresh_token"]
 
-    # user_id = get_user_id(access_token,refresh_token)
 
-    # db.execute('INSERT INTO tokens (user_id, access_token, refresh_token) VALUES (?, ?, ?)', 
-    #                    (user_id,access_token,refresh_token))
-    # db.commit()
+    access_token = results["access_token"]
+    refresh_token = results["refresh_token"]
+
+    '''
+        set access_token, refresh token here
+
+        extract userID from db 
+    '''
+
+    get_spotify_id(user_id)
 
     
 
     return
 
+def get_spotify_id(user_id):
+
+    
+
+    endpoint = "https://api.spotify.com/v1/me"
+    
+    header = {
+        "Authorization" : f"Bearer {session.get('access_token')}"
+    }
+
+    response = get(endpoint,headers=header)
+
+    response = json.loads(response.content)
+
+
+
+    print(response)
+
+    return response['id']
+
 def create_empty_playlist():
-    id = get_user_id()
-    print("after get id")
+    # id = get_spotify_id()
+    # print("after get id")
 
     endpoint = f'https://api.spotify.com/v1/users/{id}/playlists'
     header = {
@@ -254,10 +274,10 @@ def create_empty_playlist():
 
 
 def send_playlist(list):
-   access_token = session.get('access_token')
-   refresh_token = session.get('refresh_token')
+#    access_token = session.get('access_token')
+#    refresh_token = session.get('refresh_token')
 
-   id = create_empty_playlist()
+   playlist_id = create_empty_playlist()
    print("after get playlist id")
    return
 #    endpoint = f"https://api.spotify.com/v1/playlists/{id}/tracks"
