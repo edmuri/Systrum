@@ -109,11 +109,6 @@ def createPlaylist():
     
     return jsonify(results),200
 
-@app.route('/getSong',methods=['GET'])
-def getSong():
-    song=request.args.get("song")
-    return
-
 @app.route('/authorizeUser',methods=['GET'])
 def authorize():
     link = calls.authorize_user()
