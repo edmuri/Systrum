@@ -32,12 +32,13 @@ class Node:
 
 @app.route('/')
 def root():
-    # createPlaylist()
     return ""
 
-
+'''
+This is the main function that does most of the calling to api and construction of playlists
+'''
 @app.route('/createPlaylist', methods=['GET'])
-def createPlaylist():
+def generatePlaylist():
     sentence = request.args.get('sentence')
     # print(sentence)
 
@@ -109,16 +110,30 @@ def createPlaylist():
     
     return jsonify(results),200
 
+'''
+Call that leads to users being redirected to spotify's authentication
+'''
 @app.route('/authorizeUser',methods=['GET'])
 def authorize():
     link = calls.authorize_user()
     return redirect(link)
 
-@app.route('/callback')
+'''
+This sets the authentication code that will lead to the user's access code being set and redirected
+back to Systrum page
+'''
+@app.route('/callback', methods=['POST'])
 def handle_callback():
     code = request.args.get("code")
     calls.set_user_token(code)
     return redirect('http://localhost:3000/CreatePlaylist')
 
+@app.route('/sendPlaylist',methods=['POST'])
+def send_playlist():
+    user_id = request.args.get("id")
+    list = request["playlist"]
+    calls.send_playlist(user_id, list)
+
+    return
 
 

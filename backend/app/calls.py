@@ -3,7 +3,7 @@
 #these are for the server (calling api and parsing)
 # from flask import Flask
 # from flask_cors import CORS
-from flask import session
+# from flask import session
 import json
 from requests import get,post,put
 import base64
@@ -51,11 +51,10 @@ def get_token_from_db(user_id):
         #at this point it should always return a token
     return token
 
-def refresh_the_token(refresh_token):
+def refresh_the_token(user_id):
+
     endpoint = "https://accounts.spotify.com/api/token"
 
-    # print(session.get('refresh_token'))
-    # print("Access" + session.get('access_token'))
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization":f"Basic {encode_to_64(ID + ':' + Secret)}"
@@ -67,14 +66,13 @@ def refresh_the_token(refresh_token):
 
     response = post(url=endpoint, headers=headers, data=data)
     results = json.loads(response.content)
-    # print(results)
 
     if response.status_code == 200:
         #update the access token and refresh token for that user
-        return results["access_token"]
-    else :
-        return None
-
+        # return results["access_token"]
+        return 200
+    else:
+        return 403
 
 
 '''
@@ -105,7 +103,7 @@ def get_client_credentials():
     #call
     response = post(endpoint,headers=query_header,data=query_data)
 
-    #will only continue if we receive a successful call, returns the access token
+    
     '''
         This is how we receive the response.content
         {
@@ -114,6 +112,7 @@ def get_client_credentials():
             "expires_in":3600
         }
     '''
+    #will only continue if we receive a successful call, returns the access token
     if response.status_code == 200:
         response_content = json.loads(response.content)
         # print(response_content)
@@ -123,7 +122,6 @@ def get_client_credentials():
     else:
         print("Error receiving access token")
         return None
-
 
 '''
     search_for_song: calls the spotify api to search for a song matching the given name
@@ -187,31 +185,13 @@ def search_for_song(name):
         "id":id
     }
 
-    # print(tmp[0]["album"]["images"][0])
-    # print(tmp[0]["external_urls"])
-    # print(tmp[0]["id"])
     return results
 
-def get_spotify_id():
-
-    refresh_the_token()
-
-    endpoint = "https://api.spotify.com/v1/me"
-    
-    header = {
-        "Authorization" : f"Bearer {session.get('access_token')}"
-    }
-
-    response = get(endpoint,headers=header)
-
-    response = json.loads(response.content)
-
-
-
-    print(response)
-
-    return response['id']
-
+'''
+    This is called to construct the url that users will be redirected 
+    to in order to authorize the spotify connection. This will not do anything else directly,
+    but when the user comes back from authorizing it is taken to set_user_token
+'''
 def authorize_user():
     scope = "playlist-modify-public user-read-private"
     
@@ -229,6 +209,13 @@ def authorize_user():
     response = get(full_query)
     return response.url
 
+'''
+    This is where the user is redirected to once they authorize the spotify interaction.
+    It calls the api with the authorization code to get the access token, refresh token, and the
+    spotify id to store in the sql db for future use
+
+    it returns the user_id from the new sql addition to main.py
+'''
 def set_user_token(code):
     
     endpoint = "https://accounts.spotify.com/api/token"
@@ -249,25 +236,11 @@ def set_user_token(code):
     response = post(url=endpoint, params=data, headers=header)
    
     results = json.loads(response.content)
-    # session["access_token"]=results["access_token"]
-    # session["refresh_token"]=results["refresh_token"]
-    # access_token = results["access_token"]
-    # refresh_token = results["refresh_token"]
-
-    # user_id = get_user_id(access_token,refresh_token)
 
     access_token = results["access_token"]
     refresh_token = results["refresh_token"]
 
-    '''
-        set access_token, refresh token here
-
-        extract userID from db 
-    '''
-
-    access_token = refresh_the_token(refresh_token)
-    print("after refresh token")
-
+    # Start getting the spotify accout id 
     id_endpoint = "https://api.spotify.com/v1/me"
     
     id_header = {
@@ -278,20 +251,30 @@ def set_user_token(code):
 
     id_result = json.loads(id_response.content)
 
-    print(id_result["id"])
+    spotify_id = id_result["id"]
 
-    return
+    '''
+        set access_token, refresh token here, spotify_id
 
+        extract userID from db 
+    '''
+
+    return user_id
+
+'''
+    This is called from the send_playlist function and returns a playlist id to the calling function
+    It creates a playlist with the name of the sentence
+'''
 def create_empty_playlist(user_id,sentence):
 
-    endpoint = f'https://api.spotify.com/v1/users/{get_spotify_id(user_id)}/playlists'
+    endpoint = f'https://api.spotify.com/v1/users/{get_id_from_db(user_id)}/playlists'
     header = {
         "Authorization": f"Bearer {get_token_from_db(user_id)}",
         "Content-Type": "application/json"
     }
     data={
         "name" : f"{sentence}",
-        "description":"",
+        "description":"Playlist made from Systrum",
         "public":"true"
     }
 
@@ -299,23 +282,30 @@ def create_empty_playlist(user_id,sentence):
     results=json.loads(request.content)
     return results["id"]
 
-
-def send_playlist(list):
+'''
+    This is what we will use to create the playlist for the user and send it to their account
+    The platlist id is created and we iterate through all the elements of the sent playlist
+'''
+def send_playlist(user_id, list):
+   sentence = list["sentence"]
+   playlist_id = create_empty_playlist(user_id, sentence)
    
-   playlist_id = create_empty_playlist()
-   print("after get playlist id")
+   endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+
+
+   header = {
+       "Authorization": f"Bearer {get_token_from_db(user_id)}",
+       "Content-Type": "application/json"
+   }
+
+   data = {
+       "uris": list["songs"]
+   }
+
+
+   response = post(endpoint, headers=header, params=data)
+
    return
-#    endpoint = f"https://api.spotify.com/v1/playlists/{id}/tracks"
-
-
-#    header = {
-#        "Authorization": f"Bearer {session.get("access_token")}",
-#        "Content-Type": "application/json"
-#    }
-
-#    data = {
-       
-#    }
 
 
 
