@@ -1,5 +1,5 @@
 CREATE TABLE songs(
-    album_name TEXT NOT NULL,
+    album TEXT NOT NULL,
     artist TEXT NOT NULL,
     id TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
@@ -7,7 +7,21 @@ CREATE TABLE songs(
 );
 
 CREATE TABLE covers(
-    album_name TEXT NOT NULL,
+    album TEXT NOT NULL,
     artist TEXT NOT NULL,
     link TEXT NOT NULL
+);
+
+CREATE TABLE tokens(
+    user_id TEXT NOT NULL,
+    spotify_id TEXT NOT NULL,
+    access_token TEXT NOT NULL,
+    refresh_token TEXT NOT NULL,
+    is_logged_in INT NOT NULL
+);
+
+CREATE TABLE contact(
+    name TEXT,
+    github TEXT,
+    linkedin TEXT
 );
