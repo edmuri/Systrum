@@ -33,15 +33,17 @@ def encode_to_64(string):
     return encoded
 
 def get_id_from_db(user_id):
-    spotify_id = ""
     ##call db for spotify id using passed in user_id
-        #at this point it should always return an id
+    db = get_db()
+    spotify_id = db.execute('SELECT spotify_id FROM tokens WHERE user_id = ?',
+                            (user_id,)).fetchone()
     return spotify_id
 
 def get_token_from_db(user_id):
-    token=""
-    #call db for access token using user_id
-        #at this point it should always return a token
+    ##call db for access token using passed in user_id
+    db = get_db()
+    token = db.execute('SELECT access_token FROM tokens WHERE user_id = ?',
+                            (user_id,)).fetchone()
     return token
 
 def refresh_token(user_id):
