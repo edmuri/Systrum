@@ -22,6 +22,7 @@ CREATE TABLE tokens(
 
 CREATE TABLE contact(
     name TEXT,
+    role TEXT,
     github TEXT,
     linkedin TEXT
 );
