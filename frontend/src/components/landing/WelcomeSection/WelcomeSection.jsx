@@ -28,6 +28,7 @@ useEffect(() => {
 }, []);
 
 const handleGetStarted = () => navigate('/CreatePlaylist');
+const handleToAbout = () => navigate('/AboutPage');
 
 return (
     <section ref={rootRef} className="welcome-section" aria-labelledby="welcome-title">
@@ -92,6 +93,19 @@ return (
             Create Your Playlist
         </Button>
         </div>
+        {/* <div className="welcome-section__cta">
+        <Button
+            variant="primary"
+            size="welcome"
+            onClick={handleToAbout}
+            // icon={Play}
+            iconPosition="left"
+            className="welcome-section__cta-button"
+            aria-label="Create your playlist"
+        >
+            About Systrum
+        </Button> */}
+        {/* </div> */}
     </div>
     </section>
 );
