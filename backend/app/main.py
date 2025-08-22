@@ -12,10 +12,6 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-# load_dotenv()
-
-# # app.secret_key = os.getenv("session_secret_key")
-
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['DATABASE'] = os.path.join(BASE_DIR, 'database.db')
 
@@ -135,5 +131,7 @@ def send_playlist():
     calls.send_playlist(user_id, list)
 
     return
+
+
 
 

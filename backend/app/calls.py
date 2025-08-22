@@ -25,7 +25,7 @@ load_dotenv()
 ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://127.0.0.1:5000/callback"
-db=get_db()
+
 '''
 Result 200: ALL GOOD
 Result 401: Bad or Expired Token
@@ -40,11 +40,13 @@ def encode_to_64(string):
     return encoded
 
 def get_id_from_db(user_id):
+    db=get_db()
     spotify_id = db.execute('SELECT spotify_id FROM tokens WHERE user_id = ?',
                             (user_id,)).fetchone()
     return spotify_id
 
 def get_token_from_db(user_id):
+    db=get_db()
     token = db.execute('SELECT access_token FROM tokens WHERE user_id = ?',
                             (user_id,)).fetchone()
     return token
