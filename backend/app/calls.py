@@ -25,7 +25,7 @@ load_dotenv()
 ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://127.0.0.1:5000/callback"
-
+db=get_db()
 '''
 Result 200: ALL GOOD
 Result 401: Bad or Expired Token
@@ -40,16 +40,11 @@ def encode_to_64(string):
     return encoded
 
 def get_id_from_db(user_id):
-<<<<<<< HEAD
-    ##call db for spotify id using passed in user_id
-    db = get_db()
     spotify_id = db.execute('SELECT spotify_id FROM tokens WHERE user_id = ?',
                             (user_id,)).fetchone()
     return spotify_id
 
 def get_token_from_db(user_id):
-    ##call db for access token using passed in user_id
-    db = get_db()
     token = db.execute('SELECT access_token FROM tokens WHERE user_id = ?',
                             (user_id,)).fetchone()
     return token
@@ -61,23 +56,6 @@ def refresh_token(user_id):
     ACCESS DB FOR refresh token
     
     '''
-=======
-    spotify_id = ""
-    ##call db for spotify id using passed in user_id
-        #at this point it should always return an id
-    return spotify_id
-
-def get_token_from_db(user_id):
-    token=""
-    #call db for access token using user_id
-        #at this point it should always return a token
-    return token
-
-def refresh_the_token(user_id):
-
-    endpoint = "https://accounts.spotify.com/api/token"
-
->>>>>>> backend
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization":f"Basic {encode_to_64(ID + ':' + Secret)}"
@@ -89,14 +67,6 @@ def refresh_the_token(user_id):
 
     response = post(url=endpoint, headers=headers, data=data)
     results = json.loads(response.content)
-<<<<<<< HEAD
-    # print(results)
-
-    if response.status_code == 200:
-        #update the access token and refresh token using the user_id
-        return "ALL GOOD"
-=======
->>>>>>> backend
 
     if response.status_code == 200:
         #update the access token and refresh token for that user
@@ -218,14 +188,11 @@ def search_for_song(name):
 
     return results
 
-<<<<<<< HEAD
-=======
 '''
     This is called to construct the url that users will be redirected 
     to in order to authorize the spotify connection. This will not do anything else directly,
     but when the user comes back from authorizing it is taken to set_user_token
 '''
->>>>>>> backend
 def authorize_user():
     scope = "playlist-modify-public user-read-private"
     
@@ -271,22 +238,12 @@ def set_user_token(code):
    
     results = json.loads(response.content)
 
-<<<<<<< HEAD
 
     access_token = results["access_token"]
     refresh_token = results["refresh_token"]
 
-    '''
-        set access_token, refresh token here
-
-        extract userID from db 
-    '''
-
-    get_spotify_id(user_id)
-=======
     access_token = results["access_token"]
     refresh_token = results["refresh_token"]
->>>>>>> backend
 
     # Start getting the spotify accout id 
     id_endpoint = "https://api.spotify.com/v1/me"
@@ -297,33 +254,7 @@ def set_user_token(code):
 
     id_response = get(id_endpoint,headers=id_header)
 
-<<<<<<< HEAD
-def get_spotify_id(user_id):
-
-    
-
-    endpoint = "https://api.spotify.com/v1/me"
-    
-    header = {
-        "Authorization" : f"Bearer {session.get('access_token')}"
-    }
-
-    response = get(endpoint,headers=header)
-
-    response = json.loads(response.content)
-
-
-
-    print(response)
-
-    return response['id']
-
-def create_empty_playlist():
-    # id = get_spotify_id()
-    # print("after get id")
-=======
     id_result = json.loads(id_response.content)
->>>>>>> backend
 
     spotify_id = id_result["id"]
 
@@ -366,14 +297,6 @@ def send_playlist(user_id, list):
    
    endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
-<<<<<<< HEAD
-def send_playlist(list):
-#    access_token = session.get('access_token')
-#    refresh_token = session.get('refresh_token')
-
-   playlist_id = create_empty_playlist()
-   print("after get playlist id")
-=======
 
    header = {
        "Authorization": f"Bearer {get_token_from_db(user_id)}",
@@ -387,7 +310,6 @@ def send_playlist(list):
 
    response = post(endpoint, headers=header, params=data)
 
->>>>>>> backend
    return
 
 
