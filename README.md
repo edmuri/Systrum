@@ -1,11 +1,37 @@
-## Systrum
+# Systrum 
+
 
 ---
+### ℹ️ About
 
-### Creators
-<ul style="list-style: none;">
-  <li>Eduardo Murillo: Project Manager, Backend Developer</li>
-  <li>Basil Tiongson: Frontend Developer</li>
-  <li>Claudia Varnas: Backend Developer</li>
-  <li>Julia Bowman: Frontend Developer</li>
-</ul>
+---
+### 🌟 Features
+
+
+---
+### ⚡Tech Stack
+
+  React [ HTML, CSS, Javascipt ]
+
+   Flask [ Python ] 
+
+   mySQL [ SQL ] 
+
+   SpotifyAPI
+   
+---
+### 👓 How to Use
+
+---
+### 🕙 Future Plans
+
+---
+### 🎹 Contributors
+🖤 Eduardo Murillo: Project Manager, Backend Developer
+
+🩶 Basil Tiongson: Frontend Developer
+
+💜 Claudia Varnas: Backend Developer
+
+🩷 Julia Bowman: Frontend Developer
+
