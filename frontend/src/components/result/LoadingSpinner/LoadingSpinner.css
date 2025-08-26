@@ -1,0 +1,99 @@
+/* src/components/result/LoadingSpinner/LoadingSpinner.css */
+@import '../../../styles/variables.css';
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh; /* Take up most of the viewport */
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.spinner-container {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.spinner-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+}
+
+.spinning-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--spotify-green);
+    animation: spin 2s linear infinite;
+}
+
+.spinner-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: var(--spotify-green);
+    border-radius: 50%;
+    animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.dot--1 {
+    animation-delay: -0.32s;
+}
+
+.dot--2 {
+    animation-delay: -0.16s;
+}
+
+.dot--3 {
+    animation-delay: 0s;
+}
+
+.loading-message {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #a5b2ab;
+}
+
+/* Animations */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .spinning-icon {
+        animation: none;
+    }
+    
+    .dot {
+        animation: none;
+        opacity: 0.7;
+    }
+}

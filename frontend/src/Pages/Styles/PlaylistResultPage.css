@@ -1,0 +1,21 @@
+/* src/pages/Styles/PlaylistResultPage.css */
+@import '../../styles/variables.css';
+
+.playlist-result-page {
+    width: 100%;
+    background: var(--background-primary);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    max-height: none !important;
+}
+
+.playlist-result-page {
+    scroll-behavior: smooth;
+}
+
+.playlist-result-page * {
+    box-sizing: border-box;
+}

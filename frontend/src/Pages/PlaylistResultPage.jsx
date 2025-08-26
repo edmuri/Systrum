@@ -1,10 +1,14 @@
+// src/pages/PlaylistResultPage.jsx
 import React from "react";
-import ReactDOM from "react-dom/client";
+import PlaylistResultSection from "../components/result/PlaylistResultSection/PlaylistResultSection";
+import "./Styles/PlaylistResultPage.css";
 
-const PlaylistResultPage = () =>{
-    return (
-        <div></div>
-    )
-}
+const PlaylistResultPage = () => {
+  return (
+    <div className="playlist-result-page">
+      <PlaylistResultSection />
+    </div>
+  );
+};
 
-export default PlaylistResultPage
+export default PlaylistResultPage;

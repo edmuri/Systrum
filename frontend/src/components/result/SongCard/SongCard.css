@@ -1,0 +1,253 @@
+/* src/components/result/SongCard/SongCard.css */
+@import '../../../styles/variables.css';
+
+.song-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    
+    /* Animation */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.5s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+}
+
+.song-card:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.song-card:last-child {
+    border-bottom: none;
+}
+
+/* Index number */
+.song-card__index {
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #a5b2ab;
+    font-family: var(--font-mono);
+}
+
+/* Album cover */
+.song-card__cover {
+    position: relative;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.song-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.song-card__cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.song-card:hover .song-card__cover-overlay {
+    opacity: 1;
+}
+
+.song-card:hover .song-card__cover img {
+    transform: scale(1.05);
+}
+
+.play-button {
+    background: var(--spotify-green);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    transform: scale(0.8);
+}
+
+.play-button:hover {
+    transform: scale(0.9);
+    background: var(--spotify-green-hover);
+}
+
+.play-button svg {
+    margin-left: 2px; /* Center the play icon */
+}
+
+/* Song info */
+.song-card__info {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.song-card__main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.song-card__name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-card__artist {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #a5b2ab;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.song-card__album {
+    font-size: 0.8rem;
+    color: #727272;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Actions */
+.song-card__actions {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.song-card:hover .song-card__actions {
+    opacity: 1;
+}
+
+.external-link-button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a5b2ab;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.external-link-button:hover {
+    border-color: var(--spotify-green);
+    color: var(--spotify-green);
+    background: rgba(29, 185, 84, 0.1);
+}
+
+/* Animation keyframes */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .song-card {
+        padding: 14px 20px;
+        gap: 12px;
+    }
+    
+    .song-card__cover {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .play-button {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .song-card__name {
+        font-size: 0.95rem;
+    }
+    
+    .song-card__artist {
+        font-size: 0.85rem;
+    }
+    
+    .song-card__index {
+        width: 28px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .song-card {
+        padding: 12px 16px;
+    }
+    
+    .song-card__info {
+        gap: 2px;
+    }
+    
+    .song-card__main {
+        gap: 1px;
+    }
+    
+    /* Hide album name on very small screens */
+    .song-card__meta {
+        display: none;
+    }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .song-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .song-card__cover img,
+    .play-button,
+    .external-link-button {
+        transition: none;
+    }
+}
