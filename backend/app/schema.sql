@@ -13,7 +13,7 @@ CREATE TABLE covers(
 );
 
 CREATE TABLE tokens(
-    user_id INT AUTO_INCREMENT,
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     spotify_id TEXT NOT NULL,
     access_token TEXT NOT NULL,
     refresh_token TEXT NOT NULL,

@@ -52,7 +52,7 @@ const PlaylistResultSection = () => {
 
         setSentence(currentSentence);
 
-        // Call your backend API
+        // Call backend API
         const response = await fetch(`http://localhost:5000/createPlaylist?sentence=${encodeURIComponent(currentSentence)}`);
         
         if (!response.ok) {
@@ -80,18 +80,20 @@ const PlaylistResultSection = () => {
     navigate('/CreatePlaylist', { state: { sentence } });
   };
 
-  const handleSharePlaylist = () => {
-    if (navigator.share && playlist.length > 0) {
-      navigator.share({
-        title: `My Systrum Playlist: "${sentence}"`,
-        text: `Check out this playlist I created from "${sentence}" using Systrum!`,
-        url: window.location.href
-      });
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      // You could add a toast notification here
-    }
+  const handleSharePlaylist = async () => {
+    // if (navigator.share && playlist.length > 0) {
+    //   navigator.share({
+    //     title: `My Systrum Playlist: "${sentence}"`,
+    //     text: `Check out this playlist I created from "${sentence}" using Systrum!`,
+    //     url: window.location.href
+    //   });
+    // } else {
+    //   // Fallback: copy to clipboard
+    //   navigator.clipboard.writeText(window.location.href);
+    //   // You could add a toast notification here
+    // }
+        // const response = await fetch("http://localhost:5000/authorizeUser");
+        // let data = await response.json();
   };
 
   if (loading) {
@@ -171,6 +173,7 @@ const PlaylistResultSection = () => {
           </div>
 
           <div className="result-section__actions">
+            <a href="http://localhost:5000/authorizeUser">
             <Button 
               variant="secondary" 
               size="small" 
@@ -178,7 +181,7 @@ const PlaylistResultSection = () => {
               icon={Share}
             >
               Share
-            </Button>
+            </Button></a>
           </div>
         </header>
 

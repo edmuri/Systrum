@@ -2,7 +2,7 @@
 import calls,db
 from flask import Flask
 from flask_cors import CORS
-from flask import request,jsonify,session,redirect
+from flask import request,jsonify,redirect, make_response
 import json
 from db import get_db
 from requests import get,post,put
@@ -14,7 +14,7 @@ app = Flask(__name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['DATABASE'] = os.path.join(BASE_DIR, 'database.db')
 
-CORS(app)
+CORS(app, supports_credentials=True)
 
 #create the node class that will hold the word and combinations
 
@@ -49,7 +49,7 @@ def generatePlaylist():
 
         #check db
         db = get_db()
-        song_matches_from_db = db.execute('SELECT name,artist,album_name,id,url FROM songs WHERE name = ?',
+        song_matches_from_db = db.execute('SELECT name,artist,album,id,url FROM songs WHERE name = ?',
         (word,)).fetchall()
 
         #if song is found then this will skip to the next word
@@ -60,9 +60,9 @@ def generatePlaylist():
             # need to 
             # results.append([song_matches_from_db[0]['name'],song_matches_from_db[0]['url']])
             artist = song_matches_from_db[0]['artist']
-            album = song_matches_from_db[0]['album_name']
+            album = song_matches_from_db[0]['album']
 
-            cover = db.execute('SELECT link FROM covers WHERE artist = ? AND album_name = ?',
+            cover = db.execute('SELECT link FROM covers WHERE artist = ? AND album = ?',
                                                (artist, album,)).fetchone()
             
             formatted_db_result = {
@@ -84,18 +84,18 @@ def generatePlaylist():
             returned_songs = calls.search_for_song(word)
             
             # add the new song to the database
-            db.execute('INSERT INTO songs (name, url, id, artist, album_name) VALUES (?, ?, ?, ?, ?)', 
+            db.execute('INSERT INTO songs (name, url, id, artist, album) VALUES (?, ?, ?, ?, ?)', 
                        (returned_songs["name"], returned_songs["url"], returned_songs["id"], 
                         returned_songs["artist"], returned_songs["album"]))
             db.commit()
 
             # check if album cover has already been added to covers table
-            cover_matches_from_db = db.execute('SELECT link FROM covers WHERE artist = ? AND album_name = ?',
+            cover_matches_from_db = db.execute('SELECT link FROM covers WHERE artist = ? AND album = ?',
                                                (returned_songs["artist"], returned_songs["album"],)).fetchone()
             
             # if not found, we create a new entry.
             if cover_matches_from_db == None or len(cover_matches_from_db) == 0:
-                db.execute('INSERT INTO covers (album_name, artist, link) VALUES (?, ?, ?)',
+                db.execute('INSERT INTO covers (album, artist, link) VALUES (?, ?, ?)',
                            (returned_songs["album"], returned_songs["artist"], returned_songs["cover"]))
                 db.commit()
 
@@ -108,20 +108,29 @@ def generatePlaylist():
 '''
 Call that leads to users being redirected to spotify's authentication
 '''
-@app.route('/authorizeUser',methods=['GET'])
+@app.route('/authorizeUser')
 def authorize():
+    print("IN AUTH")
     link = calls.authorize_user()
+    print("OUTSITE LINK")
     return redirect(link)
 
 '''
 This sets the authentication code that will lead to the user's access code being set and redirected
 back to Systrum page
 '''
-@app.route('/callback', methods=['POST'])
+@app.route('/callback')
 def handle_callback():
     code = request.args.get("code")
-    calls.set_user_token(code)
-    return redirect('http://localhost:3000/CreatePlaylist')
+    userID = calls.set_user_token(code)
+    print("INSIDE CALLBACK")
+    print(userID)
+    response = make_response(redirect('http://localhost:3000/PlaylistResult'))
+    response.set_cookie('userID', str(userID),domain="localhost",
+    samesite="None",
+    path='/',
+    secure=False)
+    return response
 
 @app.route('/sendPlaylist',methods=['POST'])
 def send_playlist():

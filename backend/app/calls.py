@@ -8,7 +8,6 @@ import json
 from requests import get,post,put
 import base64
 from urllib.parse import urlencode
-import db
 from db import get_db
 
 
@@ -240,10 +239,6 @@ def set_user_token(code):
    
     results = json.loads(response.content)
 
-
-    access_token = results["access_token"]
-    refresh_token = results["refresh_token"]
-
     access_token = results["access_token"]
     refresh_token = results["refresh_token"]
 
@@ -260,13 +255,15 @@ def set_user_token(code):
 
     spotify_id = id_result["id"]
 
-    '''
-        set access_token, refresh token here, spotify_id
+    db=get_db()
+    db.execute('INSERT INTO tokens (access_token, refresh_token, spotify_id, is_logged_in) VALUES (?,?,?,?)',
+                            (access_token,refresh_token,spotify_id,1))
+    db.commit()
+    user_id = db.execute('SELECT user_id FROM tokens WHERE spotify_id = ?', (spotify_id,)).fetchone()
+    
 
-        extract userID from db 
-    '''
-
-    return user_id
+    # return user_id
+    return user_id[0]
 
 '''
     This is called from the send_playlist function and returns a playlist id to the calling function
