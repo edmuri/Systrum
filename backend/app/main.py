@@ -81,7 +81,10 @@ def generatePlaylist():
             #call the api
             # print(calls.search_for_song(word))
             print("calling api")
-            returned_songs = calls.search_for_song(word)
+            returned_songs = calls.search_for_song(word, 0)
+
+            if returned_songs is None:
+                return jsonify({"Message":"Error"}),400
             
             # add the new song to the database
             db.execute('INSERT INTO songs (name, url, id, artist, album) VALUES (?, ?, ?, ?, ?)', 
@@ -126,10 +129,7 @@ def handle_callback():
     print("INSIDE CALLBACK")
     print(userID)
     response = make_response(redirect('http://localhost:3000/PlaylistResult'))
-    response.set_cookie('userID', str(userID),domain="localhost",
-    samesite="None",
-    path='/',
-    secure=False)
+    response.set_cookie('userID', str(userID),httponly=True)
     return response
 
 @app.route('/sendPlaylist',methods=['POST'])

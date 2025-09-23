@@ -38,6 +38,20 @@ def encode_to_64(string):
     encoded = str(base64.b64encode(bytes_version), "utf-8")
     return encoded
 
+def normalize(string):
+    newString = ""
+
+    for char in string:
+        if char.isalnum():
+            newString += char.lower()
+    return newString
+
+def checkformatch(word, string):
+    if normalize(word)==normalize(string):
+        return True
+    else:
+        return False
+
 def get_id_from_db(user_id):
     db=get_db()
     spotify_id = db.execute('SELECT spotify_id FROM tokens WHERE user_id = ?',
@@ -144,7 +158,11 @@ def get_client_credentials():
      "album" : "MAYHEM"
     }
 '''
-def search_for_song(name):
+def search_for_song(name, offset):
+
+    if offset >= 200:
+        return None
+
     token = get_client_credentials()
 
     if token == None:
@@ -157,7 +175,8 @@ def search_for_song(name):
     data = {
         "q" : name,
         "type": "track",
-        "limit":1
+        "limit":50,
+        "offset":offset
     }
     header = {
         "Authorization" : f"Bearer {token}"
@@ -168,26 +187,35 @@ def search_for_song(name):
     
     if response.status_code != 200:
         return None
+    
+    # print(song_result)
 
-    tmp = song_result["tracks"]["items"]
-    # print(name)
+    tmp = song_result["tracks"]["items"] #gives me the array of 50
+    
+    for song in tmp:
+        songName = song['name']
+        
+        if(checkformatch(songName,name)):
+            url = tmp[0]["external_urls"]["spotify"]
+            albumCover = tmp[0]["album"]["images"][0]['url']
+            id = tmp[0]["id"]
+            artist = tmp[0]['artists'][0]['name']
+            album = tmp[0]["album"]['name']
 
-    url = tmp[0]["external_urls"]["spotify"]
-    albumCover = tmp[0]["album"]["images"][0]['url']
-    id = tmp[0]["id"]
-    artist = tmp[0]['artists'][0]['name']
-    album = tmp[0]["album"]['name']
+            results = {
+                "name":songName,
+                "artist": artist,
+                "album" : album,
+                "cover": albumCover,
+                "url":url,
+                "id":id
+            }
 
-    results = {
-        "name":name,
-        "artist": artist,
-        "album" : album,
-        "cover": albumCover,
-        "url":url,
-        "id":id
-    }
+            return results
+        
+    return search_for_song(name, offset+50)
 
-    return results
+   
 
 '''
     This is called to construct the url that users will be redirected 
