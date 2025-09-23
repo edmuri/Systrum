@@ -45,11 +45,11 @@ def generatePlaylist():
     results = []
 
     for word in words:
-        #print(word)
+        # print(word)
 
         #check db
         db = get_db()
-        song_matches_from_db = db.execute('SELECT name,artist,album,id,url FROM songs WHERE name = ?',
+        song_matches_from_db = db.execute('SELECT name,artist,album,id,url FROM songs WHERE name LIKE ?',
         (word,)).fetchall()
 
         #if song is found then this will skip to the next word
