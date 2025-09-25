@@ -17,6 +17,19 @@ const PlaylistResultSection = () => {
   const navigate = useNavigate();
   const rootRef = useRef(null);
 
+  function seperateCookies(cookies){
+    const cookieArray = allCookies.split("; ");
+
+    const cookies = {};
+
+    cookieArray.forEach(cookie => {
+      const [key, value] = cookie.split("=");
+      cookies[key]=value;
+    })
+
+    return cookies;
+  };
+
   // Animation observer
   useEffect(() => {
     const el = rootRef.current;
@@ -42,12 +55,27 @@ const PlaylistResultSection = () => {
         const urlParams = new URLSearchParams(location.search);
         const sentenceFromUrl = urlParams.get('sentence');
         
-        const currentSentence = sentenceFromState || sentenceFromUrl;
+        let currentSentence = sentenceFromState || sentenceFromUrl;
         
-        if (!currentSentence) {
+        /* check cookie */
+        const temp = `${document.cookie}`;
+        
+        let cookiesMap = {};
+
+        if(temp!=null){
+          cookiesMap = seperateCookies(temp);
+        }
+
+        console.log(cookiesMap);
+
+        if (!currentSentence & value==null) {
           setError('No sentence provided');
           setLoading(false);
           return;
+        }
+
+        if(!currentSentence & value != null){
+          currentSentence = value;
         }
 
         setSentence(currentSentence);
@@ -62,13 +90,16 @@ const PlaylistResultSection = () => {
         const playlistData = await response.json();
         setPlaylist(playlistData);
         setLoading(false);
+        // document.cookie = "Sentence" + playlistData;
+        document.cookie = "Sentence" + "=" + currentSentence+ "; path=/";
+
       } catch (err) {
         console.error('Error fetching playlist:', err);
         setError('Failed to generate playlist. Please try again.');
         setLoading(false);
       }
     };
-
+    
     fetchPlaylist();
   }, [location]);
 
