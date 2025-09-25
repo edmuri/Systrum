@@ -45,7 +45,7 @@ def generatePlaylist():
     results = []
 
     for word in words:
-        # print(word)
+        print(word)
 
         #check db
         db = get_db()
@@ -129,7 +129,7 @@ def handle_callback():
     print("INSIDE CALLBACK")
     print(userID)
     response = make_response(redirect('http://localhost:3000/PlaylistResult'))
-    response.set_cookie('userID', str(userID),httponly=True)
+    # response.set_cookie('userID', str(userID),httponly=True)
     return response
 
 @app.route('/sendPlaylist',methods=['POST'])

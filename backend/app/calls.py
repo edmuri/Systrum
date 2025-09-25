@@ -284,6 +284,12 @@ def set_user_token(code):
     spotify_id = id_result["id"]
 
     db=get_db()
+
+    user_id = db.execute('SELECT user_id FROM tokens WHERE spotify_id LIKE ?',(spotify_id,)).fetchone()
+
+    if(len(user_id)>0):
+        return user_id[0]
+
     db.execute('INSERT INTO tokens (access_token, refresh_token, spotify_id, is_logged_in) VALUES (?,?,?,?)',
                             (access_token,refresh_token,spotify_id,1))
     db.commit()
