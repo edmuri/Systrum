@@ -46,9 +46,9 @@ def generatePlaylist():
     results = []
 
     for word in words:
-        if calls.normalize(word) == 'i':
-            sentence = 'I'
-            continue
+        # if calls.normalize(word) == 'i':
+        #     sentence = 'I'
+        #     continue
         
         sentence += ( " " + word)
         print("Sentence",sentence)
@@ -87,8 +87,8 @@ def generatePlaylist():
         else:
             #call the api
             # print(calls.search_for_song(word))
-            print("calling api")
-            print(sentence)
+            # print("calling api")
+            # print(sentence)
             returned_songs = calls.search_for_song(sentence, 0)
 
             if returned_songs is None:
