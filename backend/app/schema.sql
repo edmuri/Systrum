@@ -3,6 +3,7 @@ CREATE TABLE songs(
     artist TEXT NOT NULL,
     id TEXT PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
+    word TEXT NOT NULL,
     url TEXT NOT NULL
 );
 

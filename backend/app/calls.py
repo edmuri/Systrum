@@ -1,8 +1,8 @@
 
 
 #these are for the server (calling api and parsing)
-# from flask import Flask
-# from flask_cors import CORS
+from flask import Flask
+from flask_cors import CORS
 # from flask import session
 import json
 from requests import get,post,put
@@ -15,9 +15,9 @@ from db import get_db
 import os
 from dotenv import load_dotenv
 
-# app = Flask(__name__)
+app = Flask(__name__)
 
-# CORS(app)
+CORS(app)
 
 #fetching the api credentials for the calls
 load_dotenv()
@@ -44,6 +44,8 @@ def normalize(string):
     for char in string:
         if char.isalnum():
             newString += char.lower()
+        elif char == " ":
+            newString += " "
     return newString
 
 def checkformatch(word, string):
@@ -159,8 +161,9 @@ def get_client_credentials():
     }
 '''
 def search_for_song(name, offset):
-
+    print("in call", name)
     if offset >= 200:
+        print("Cannot find word")
         return None
 
     token = get_client_credentials()
@@ -171,7 +174,6 @@ def search_for_song(name, offset):
         
     endpoint = "https://api.spotify.com/v1/search"
 
-    # looks for the first track with a matching name
     data = {
         "q" : name,
         "type": "track",
@@ -191,18 +193,20 @@ def search_for_song(name, offset):
     # print(song_result)
 
     tmp = song_result["tracks"]["items"] #gives me the array of 50
-    
+    print("looking for", name)
     for song in tmp:
         songName = song['name']
         
         if(checkformatch(songName,name)):
-            url = tmp[0]["external_urls"]["spotify"]
-            albumCover = tmp[0]["album"]["images"][0]['url']
-            id = tmp[0]["id"]
-            artist = tmp[0]['artists'][0]['name']
-            album = tmp[0]["album"]['name']
+            print(songName,name)
+            url = song["external_urls"]["spotify"]
+            albumCover = song["album"]["images"][0]['url']
+            id = song["id"]
+            artist = song['artists'][0]['name']
+            album = song["album"]['name']
 
             results = {
+                "word":normalize(name),
                 "name":songName,
                 "artist": artist,
                 "album" : album,
@@ -287,7 +291,7 @@ def set_user_token(code):
 
     user_id = db.execute('SELECT user_id FROM tokens WHERE spotify_id LIKE ?',(spotify_id,)).fetchone()
 
-    if(len(user_id)>0):
+    if(user_id is not None):
         return user_id[0]
 
     db.execute('INSERT INTO tokens (access_token, refresh_token, spotify_id, is_logged_in) VALUES (?,?,?,?)',

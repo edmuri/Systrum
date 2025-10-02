@@ -40,17 +40,24 @@ def generatePlaylist():
     sentenceTree = []
     words = sentence.split(" ")
     #this is where we will make the tree? for the sentence breakdown
-
+    sentence = ""
+    prevWord = ""
     #this will be the list that we continuously add to while we make the playlist
     results = []
 
     for word in words:
-        print(word)
-
+        if calls.normalize(word) == 'i':
+            sentence = 'I'
+            continue
+        
+        sentence += ( " " + word)
+        print("Sentence",sentence)
+        sentence = calls.normalize(word)
         #check db
+        #add wildcard
         db = get_db()
-        song_matches_from_db = db.execute('SELECT name,artist,album,id,url FROM songs WHERE name LIKE ?',
-        (word,)).fetchall()
+        song_matches_from_db = db.execute('SELECT name,artist,album,id,url FROM songs WHERE word LIKE ?',
+        (sentence,)).fetchall()
 
         #if song is found then this will skip to the next word
         if len(song_matches_from_db) > 0:
@@ -74,21 +81,26 @@ def generatePlaylist():
                 "id":song_matches_from_db[0]['id']
              }
             results.append(formatted_db_result)
-
+            sentence=""
             continue
 
         else:
             #call the api
             # print(calls.search_for_song(word))
             print("calling api")
-            returned_songs = calls.search_for_song(word, 0)
+            print(sentence)
+            returned_songs = calls.search_for_song(sentence, 0)
 
             if returned_songs is None:
-                return jsonify({"Message":"Error"}),400
+                if prevWord is not sentence:
+                    prevWord = sentence
+                    continue
+                else:
+                    return jsonify({"Message:Cannot find matching playlist"}),400
             
             # add the new song to the database
-            db.execute('INSERT INTO songs (name, url, id, artist, album) VALUES (?, ?, ?, ?, ?)', 
-                       (returned_songs["name"], returned_songs["url"], returned_songs["id"], 
+            db.execute('INSERT INTO songs (word, name, url, id, artist, album) VALUES (?, ?, ?, ?, ?, ?)', 
+                       (returned_songs['word'],returned_songs["name"], returned_songs["url"], returned_songs["id"], 
                         returned_songs["artist"], returned_songs["album"]))
             db.commit()
 
@@ -103,6 +115,7 @@ def generatePlaylist():
                 db.commit()
 
             results.append(returned_songs)
+            sentence=""
 
     # calls.send_playlist(results)
     
@@ -113,9 +126,9 @@ Call that leads to users being redirected to spotify's authentication
 '''
 @app.route('/authorizeUser')
 def authorize():
-    print("IN AUTH")
+    # print("IN AUTH")
     link = calls.authorize_user()
-    print("OUTSITE LINK")
+    # print("OUTSITE LINK")
     return redirect(link)
 
 '''
@@ -126,10 +139,11 @@ back to Systrum page
 def handle_callback():
     code = request.args.get("code")
     userID = calls.set_user_token(code)
-    print("INSIDE CALLBACK")
-    print(userID)
+    # print("INSIDE CALLBACK")
+    # print(userID)
+
     response = make_response(redirect('http://localhost:3000/PlaylistResult'))
-    # response.set_cookie('userID', str(userID),httponly=True)
+    response.headers['user_id'] = userID
     return response
 
 @app.route('/sendPlaylist',methods=['POST'])

@@ -17,17 +17,17 @@ const PlaylistResultSection = () => {
   const navigate = useNavigate();
   const rootRef = useRef(null);
 
-  function seperateCookies(cookies){
-    const cookieArray = allCookies.split("; ");
+  function seperateCookies(cookie){
+    const cookieArray = cookie.split("; ");
 
-    const cookies = {};
+    const cookiesMap = {};
 
     cookieArray.forEach(cookie => {
       const [key, value] = cookie.split("=");
-      cookies[key]=value;
+      cookiesMap[key]=value;
     })
 
-    return cookies;
+    return cookiesMap;
   };
 
   // Animation observer
@@ -54,12 +54,19 @@ const PlaylistResultSection = () => {
         const sentenceFromState = location.state?.sentence;
         const urlParams = new URLSearchParams(location.search);
         const sentenceFromUrl = urlParams.get('sentence');
+        // const userIDFromUrl = urlParams.get('userID');
         
         let currentSentence = sentenceFromState || sentenceFromUrl;
-        
+
+        // if(userIDFromUrl){
+        //   document.cookie = "userID" + "=" + userIDFromUrl+ "; path=/";
+        // }
+        // else if(!userIDFromUrl){
+        //   document.cookie = "userID" + "=" + null + "; path=/";
+        // }
         /* check cookie */
-        const temp = `${document.cookie}`;
-        
+        const temp = `; ${document.cookie}`;
+        console.log(temp);
         let cookiesMap = {};
 
         if(temp!=null){
@@ -68,14 +75,15 @@ const PlaylistResultSection = () => {
 
         console.log(cookiesMap);
 
-        if (!currentSentence & value==null) {
+        if (!currentSentence & cookiesMap==null) {
+          // console.log("Inside if");
           setError('No sentence provided');
           setLoading(false);
           return;
         }
 
-        if(!currentSentence & value != null){
-          currentSentence = value;
+        if(!currentSentence & cookiesMap['Sentence'] != null){
+          currentSentence = cookiesMap['Sentence'];
         }
 
         setSentence(currentSentence);
@@ -90,7 +98,7 @@ const PlaylistResultSection = () => {
         const playlistData = await response.json();
         setPlaylist(playlistData);
         setLoading(false);
-        // document.cookie = "Sentence" + playlistData;
+
         document.cookie = "Sentence" + "=" + currentSentence+ "; path=/";
 
       } catch (err) {
@@ -107,24 +115,12 @@ const PlaylistResultSection = () => {
     navigate('/CreatePlaylist');
   };
 
-  const handleTryAgain = () => {
-    navigate('/CreatePlaylist', { state: { sentence } });
+  const handleSharePlaylist = () =>{
+
   };
 
-  const handleSharePlaylist = async () => {
-    // if (navigator.share && playlist.length > 0) {
-    //   navigator.share({
-    //     title: `My Systrum Playlist: "${sentence}"`,
-    //     text: `Check out this playlist I created from "${sentence}" using Systrum!`,
-    //     url: window.location.href
-    //   });
-    // } else {
-    //   // Fallback: copy to clipboard
-    //   navigator.clipboard.writeText(window.location.href);
-    //   // You could add a toast notification here
-    // }
-        // const response = await fetch("http://localhost:5000/authorizeUser");
-        // let data = await response.json();
+  const handleTryAgain = () => {
+    navigate('/CreatePlaylist', { state: { sentence } });
   };
 
   if (loading) {
@@ -212,7 +208,7 @@ const PlaylistResultSection = () => {
               icon={Share}
             >
               Share
-            </Button></a>
+             </Button></a>
           </div>
         </header>
 
