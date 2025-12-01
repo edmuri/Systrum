@@ -14,31 +14,24 @@ This was inspired by the twitter trend of indirect messages through your playlis
 ---
 ### 🌟 Features
 
-:atom: Automation of sentences to playlists to spell out a message through your songs
-
-:atom: Spotify user authentication to send playlist to user's account
-
- :atom: Reactive frontend
+:atom: Automation of sentences to playlists to spell out a message through your songs  
+:atom: Spotify user authentication to send playlist to user's account  
+:atom: Reactive frontend
 
 ---
 ### ⚡Tech Stack
 
-  🎵 React [ HTML, CSS, Javascipt ]
-
-  🎵 Flask [ Python ] 
-
-  🎵 mySQL [ SQL ] 
-
+  🎵 React [ HTML, CSS, Javascipt ]  
+  🎵 Flask [ Python ]   
+  🎵 mySQL [ SQL ]   
   🎵 SpotifyAPI
-
+  
 ---
 ### 👓 How to Use
 
 #### Backend
-Get a set of credentials from Spotify Developers API at https://developer.spotify.com/documentation/web-api?r_done=1
-
-You can put the client_id and client_secret into a .env file and insert that into your backend folder.
-
+Get a set of credentials from Spotify Developers API at https://developer.spotify.com/documentation/web-api?r_done=1  
+You can put the client_id and client_secret into a .env file and insert that into your backend folder.  
 You can now run the program using these commands
 
 Windows:
@@ -69,25 +62,20 @@ In a second terminal run:
     cd frontend
     npm install
 
-This will install the necessary node modules. 
-
+This will install the necessary node modules.   
 Then, you can run the frontend with
 
     npm run dev
 ---
 ### 🕙 Future Plans
 
- 💮 Genre filtering
- 
+ 💮 Genre filtering  
  💻 Deployment
  
 ---
 ### 🎹 Contributors
-🖤 Eduardo Murillo: Project Manager, Backend Developer
-
-🩶 Basil Tiongson: Frontend Developer
-
-💜 Claudia Varnas: Backend Developer
-
+🖤 Eduardo Murillo: Project Manager, Backend Developer  
+🩶 Basil Tiongson: Frontend Developer  
+💜 Claudia Varnas: Backend Developer  
 🩷 Julia Bowman: Frontend Developer
 
