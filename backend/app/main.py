@@ -154,6 +154,10 @@ def send_playlist():
 
     return
 
+@app.route('/pullStats',methods=['GET'])
+def get_info():
+    db.execute("SELECT * FROM DEVS")
+    return
 
 
 

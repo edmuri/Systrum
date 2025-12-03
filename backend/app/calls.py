@@ -38,6 +38,7 @@ def encode_to_64(string):
     encoded = str(base64.b64encode(bytes_version), "utf-8")
     return encoded
 
+# TODO: Find another sort of normalization that does not spike up run time
 def normalize(string):
     newString = ""
 
