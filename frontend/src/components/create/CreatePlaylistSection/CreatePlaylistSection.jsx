@@ -22,9 +22,9 @@ const CreatePlaylistSection = () => {
         if (entry.isIntersecting) el.classList.add('animate');
         else el.classList.remove('animate');
       },
-      { 
-        root: null, 
-        threshold: 0.25 
+      {
+        root: null,
+        threshold: 0.25
       }
     );
     io.observe(el);
@@ -33,16 +33,16 @@ const CreatePlaylistSection = () => {
 
   const handleCreatePlaylist = async (e) => {
     e.preventDefault(); // Prevent form submission if used in a form
-    
+
     if (!sentence.trim()) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       // Navigate to results page with the sentence
       // The PlaylistResultSection will handle the API call
-      navigate('/PlaylistResult', { 
-        state: { sentence: sentence.trim() } 
+      navigate('/PlaylistResult', {
+        state: { sentence: sentence.trim() }
       });
     } catch (error) {
       console.error('Navigation error:', error);
@@ -66,7 +66,7 @@ const CreatePlaylistSection = () => {
     <section ref={rootRef} className="create-section" aria-labelledby="create-title">
       {/* Background effects - same as other sections */}
       <div className="create-section__bg" aria-hidden="true">
-        <div className="create-section__vignette" />
+        <div className="create-section__vignette vignette" />
       </div>
 
       {/* Animated shapes */}
@@ -92,7 +92,7 @@ const CreatePlaylistSection = () => {
             </span>
           </h1>
           <p className="create-section__description">
-            Type any sentence and we'll turn each word into a song. 
+            Type any sentence and we'll turn each word into a song.
             <br />
             <span className="highlight">Every word becomes part of your story.</span>
           </p>
@@ -109,7 +109,7 @@ const CreatePlaylistSection = () => {
               disabled={isLoading}
               className="create-section__input"
             />
-            
+
             <Button
               type="submit"
               variant="primary"
@@ -130,7 +130,7 @@ const CreatePlaylistSection = () => {
           <div className="create-section__examples-grid">
             {[
               "I love you",
-              "Good morning sunshine", 
+              "Good morning sunshine",
               "Dancing through life",
               "Midnight city dreams"
             ].map((example, index) => (

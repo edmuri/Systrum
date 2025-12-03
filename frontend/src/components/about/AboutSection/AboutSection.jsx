@@ -18,9 +18,9 @@ const AboutSection = () => {
         if (entry.isIntersecting) el.classList.add('animate');
         else el.classList.remove('animate');
       },
-      { 
-        root: null, 
-        threshold: 0.25 
+      {
+        root: null,
+        threshold: 0.25
       }
     );
     io.observe(el);
@@ -69,7 +69,7 @@ const AboutSection = () => {
     <section ref={rootRef} className="about-section" aria-labelledby="about-title">
       {/* Background effects - consistent with other sections */}
       <div className="about-section__bg" aria-hidden="true">
-        <div className="about-section__vignette" />
+        <div className="about-section__vignette vignette" />
       </div>
 
       {/* Animated shapes */}
@@ -121,7 +121,7 @@ const AboutSection = () => {
         {/* Tech stack section */}
         <section className="about-section__tech" aria-labelledby="tech-title">
           <h2 id="tech-title" className="section-title">Built With</h2>
-          
+
           <div className="tech-stack">
             <div className="tech-category">
               <h3 className="tech-category__title">

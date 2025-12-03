@@ -25,3 +25,12 @@ ex. Zombieboy Juno
     name: "Juno"
     url: "https://open.spotify.com/track/21B4gaTWnTkuSh77iWEXdS"
 }
+\
+\
+
+change front end so that it does not pass the string in the url but makes it a temporary cookie
+OR
+incorporate Redis so that we can cache it
+
+Also, fix the multiple calling from frontend to backend
+

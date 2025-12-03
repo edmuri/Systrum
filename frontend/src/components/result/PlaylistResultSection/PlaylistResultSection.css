@@ -1,10 +1,11 @@
-/* src/components/result/PlaylistResultSection/PlaylistResultSection.css */
 @import '../../../styles/variables.css';
+@import '../../../styles/shared.css';
 
 .result-section {
     position: relative;
     width: 100%;
-    min-height: 100vh; /* Ensure full viewport height */
+    min-height: 100vh;
+    /* Ensure full viewport height */
     background: linear-gradient(180deg, #0e0f0e 0%, #0b0b0b 60%, #0a0a0a 100%);
     color: var(--text-primary);
     font-family: var(--font-primary);
@@ -33,42 +34,43 @@
     overflow: hidden;
 }
 
-.result-section__vignette {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(900px 600px at 50% -10%, rgba(114, 227, 166, 0.14), transparent 55%);
-}
+
 
 /* Shapes */
-.shape {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: rgba(29,185,84,0.12);
-    filter: blur(25px);
+/* Shapes and animations are now in shared.css */
+/* We just need to ensure the classes match or we use the shared classes in JSX */
+
+.shape--tl {
+    top: 10%;
+    left: 10%;
 }
 
-.shape--lg { width: 300px; height: 300px; }
-.shape--md { width: 200px; height: 200px; }
-.shape--sm { width: 150px; height: 150px; }
+.shape--br {
+    right: 10%;
+    bottom: 10%;
+}
 
-.shape--tl { top: 10%; left: 10%; }
-.shape--br { right: 10%; bottom: 10%; }
-.shape--l { top: 50%; left: 20%; }
+.shape--l {
+    top: 50%;
+    left: 20%;
+}
 
 /* Notes */
-.note {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    color: #7ee2ad;
-    opacity: 0.12;
+.note--a {
+    top: 20%;
+    left: 15%;
 }
 
-.note--a { top: 20%; left: 15%; }
-.note--b { bottom: 25%; right: 20%; }
-.note--c { top: 60%; right: 35%; }
+.note--b {
+    bottom: 25%;
+    right: 20%;
+}
+
+.note--c {
+    top: 60%;
+    right: 35%;
+}
+
 
 /* Header */
 .result-section__header {
@@ -126,7 +128,8 @@
 
 /* Playlist container */
 .playlist-container {
-    flex: 1; /* Take up remaining space */
+    flex: 1;
+    /* Take up remaining space */
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -162,8 +165,10 @@
 
 /* Songs list */
 .songs-list {
-    flex: 1; /* Expand to fill available space */
-    min-height: 200px; /* Minimum height to prevent collapse */
+    flex: 1;
+    /* Expand to fill available space */
+    min-height: 200px;
+    /* Minimum height to prevent collapse */
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(29, 185, 84, 0.3) transparent;
@@ -188,7 +193,8 @@
     justify-content: center;
     gap: 16px;
     flex-wrap: wrap;
-    margin-top: auto; /* Push footer to bottom */
+    margin-top: auto;
+    /* Push footer to bottom */
     padding-top: 20px;
 }
 
@@ -228,43 +234,44 @@
     .result-section {
         padding: 20px 10px 60px;
     }
-    
+
     .result-section__header {
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 16px;
     }
-    
+
     .back-button {
         align-self: flex-start;
         margin-top: 0;
     }
-    
+
     .result-section__actions {
         margin-top: 0;
     }
-    
+
     .playlist-header {
         padding: 16px 20px;
     }
-    
+
     .playlist-stats {
         justify-content: center;
         flex-wrap: wrap;
     }
-    
+
     .result-section__footer {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .songs-list {
         max-height: 500px;
     }
 }
 
 @media (max-width: 480px) {
+
     .error-actions,
     .result-section__footer {
         flex-direction: column;

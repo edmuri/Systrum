@@ -1,4 +1,5 @@
 @import '../../../styles/variables.css';
+@import '../../../styles/shared.css';
 
 /* general */
 .welcome-section {
@@ -16,7 +17,7 @@
     font-family: var(--font-primary);
 }
 
-/* holds page content */ 
+/* holds page content */
 .welcome-section__container {
     position: relative;
     z-index: 2;
@@ -24,8 +25,7 @@
     width: 100%;
     max-width: var(--container-max);
     margin: 0 auto;
-    padding: clamp(var(--spacing-xl), 5vw, var(--spacing-2xl))
-            clamp(16px, 4vw, 32px);
+    padding: clamp(var(--spacing-xl), 5vw, var(--spacing-2xl)) clamp(16px, 4vw, 32px);
 }
 
 /* layers shared */
@@ -38,141 +38,25 @@
     pointer-events: none;
     overflow: hidden;
     max-width: 100%;
-    contain: paint; /* for animation stuff */ 
+    contain: paint;
+    /* for animation stuff */
 }
 
 /* background */
-.welcome-section__bg { 
-    z-index: 0; 
+.welcome-section__bg {
+    z-index: 0;
 }
 
-/* a little grey for background */ 
-.welcome-section__vignette {
-    position: absolute;
-    inset: 0;
-    background:
-    radial-gradient(900px 600px at 50% -10%, rgba(114, 227, 166, 0.14), transparent 55%),
-    radial-gradient(600px 300px at 10% 90%,  rgba(114, 227, 166, 0.07), transparent 60%);
-}
-
-/* bubbles */
-.shape {
-    --size: 200px; /* this is the default, its overwritten down */ 
-    position: absolute;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 9999px;
-    background: rgba(29,185,84,0.12);
-    /* transform: translateZ(0); */
-    filter: blur(25px); 
-    will-change: transform, opacity; 
-}
-
-/* sizing for bubbles */ 
-.shape--lg { 
-    --size: clamp(220px, 28vw, 360px); 
-}
-.shape--md { 
-    --size: clamp(160px, 20vw, 260px); 
-}
-.shape--sm { 
-    --size: clamp(120px, 16vw, 200px); 
-}
-
-/* placement */ 
-.shape--tl { 
-    top: 6%;  left: 6%; 
-}
-.shape--br { 
-    right: 10%; bottom: 10%; 
-}
-.shape--l  { 
-    top: 55%; left: 18%; 
-}
-
-/* transform and opacity stuff */
-@keyframes bubbleBob {
-    0%,100% { 
-        transform: translate3d(0,0,0) scale(1);   opacity: .85; 
-    }
-    50% { 
-        transform: translate3d(0,-16px,0) scale(1.04); opacity: 1; 
-    }
-
-}
-
-.welcome-section.animate .shape--tl { 
-    animation: bubbleBob 18s ease-in-out infinite; 
-}
-.welcome-section.animate .shape--br { 
-    animation: bubbleBob 20s ease-in-out infinite reverse; 
-}
-.welcome-section.animate .shape--l  { 
-    animation: bubbleBob 22s ease-in-out infinite; 
-}
-
-/* music notes */
-.note {
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    color: #7ee2ad;
-    opacity: .12;
-    transform: translateZ(0);
-    will-change: transform, opacity;
-}
-.note--a { 
-    top: 18%; left: 12%; 
-}
-.note--b { 
-    bottom: 22%; right: 16%; 
-}
-.note--c { 
-    top: 58%; right: 34%; 
-}
-
-@keyframes noteFloat {
-    0%,100% { 
-        transform: translate3d(0,0,0) scale(1);   opacity: .10; 
-    }
-    50% { 
-        transform: translate3d(0,-10px,0) scale(1.06); opacity: .18; 
-    }
-}
-
-
-.welcome-section.animate .note--a { 
-    animation: noteFloat 12s ease-in-out infinite; 
-}
-.welcome-section.animate .note--b { 
-    animation: noteFloat 14s ease-in-out infinite .6s; 
-}
-.welcome-section.animate .note--c { 
-    animation: noteFloat 16s ease-in-out infinite 1.2s reverse; 
-}
-
-/* less motion for notes and bubbles */
-@media (prefers-reduced-motion: reduce) {
-    .welcome-section.animate .shape--tl,
-    .welcome-section.animate .shape--br,
-    .welcome-section.animate .shape--l,
-    .welcome-section.animate .note--a,
-    .welcome-section.animate .note--b,
-    .welcome-section.animate .note--c 
-    { 
-        animation: none !important; 
-    }
-}
 
 /* header */
-/* title and note */ 
+/* title and note */
 .welcome-section__header {
     text-align: center;
     max-width: var(--content-max);
     margin: 0 auto clamp(var(--spacing-xl), 5vw, var(--spacing-2xl));
 }
 
-/* surrounding bubble around title */ 
+/* surrounding bubble around title */
 .welcome-section__brand {
     display: inline-flex;
     align-items: center;
@@ -182,9 +66,9 @@
     border-radius: var(--radius-full);
     border: 1px solid rgba(255, 255, 255, 0);
     background: none;
-}    
+}
 
-/* note next to title */ 
+/* note next to title */
 .welcome-section__brand-icon {
     width: clamp(36px, 5vw, 48px);
     height: clamp(36px, 5vw, 48px);
@@ -195,39 +79,42 @@
 .welcome-section__title {
     position: relative;
     display: inline-flex;
-    align-items: flex-start; /* keep note on top */
+    align-items: flex-start;
+    /* keep note on top */
     gap: 0.25ch;
     margin: 0;
-    font-size: clamp(2.5rem, 7vw, 4.25rem); /* scale with screen size */
+    font-size: clamp(2.5rem, 7vw, 4.25rem);
+    /* scale with screen size */
     font-weight: 900;
     letter-spacing: -0.015em;
     color: white;
 }
-  
+
 /* little note - TM mark */
 .brand-mark {
     display: inline-block;
     line-height: 1;
     transform: translateY(-0.25em);
 }
-  
+
 .brand-mark svg {
-    width: 0.8em; /* 80 of text height */
+    width: 0.8em;
+    /* 80 of text height */
     height: 0.8em;
     color: var(--spotify-green);
     stroke-width: 2;
 }
 
-/* description section */ 
+/* description section */
 .welcome-section__tagline {
     margin: 0 0 var(--spacing-sm);
     font-weight: 600;
     font-size: clamp(1.05rem, 2.2vw, 1.4rem);
 }
 
-/* text under title description */ 
+/* text under title description */
 .welcome-section__tagline .highlight {
-    color: var(--spotify-green); 
+    color: var(--spotify-green);
 }
 
 .welcome-section__description {
@@ -244,6 +131,7 @@
     justify-content: center;
     margin: clamp(var(--spacing-lg), 4vw, var(--spacing-2xl)) 0;
 }
+
 .welcome-section__cta-button {
     box-shadow: none;
     border: 1px solid #2a2f2c;
@@ -259,8 +147,8 @@
     border-radius: var(--radius-2xl);
     text-align: center;
     background: #141614;
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .welcome-section__example-label {
@@ -274,7 +162,7 @@
     padding: var(--spacing-md);
     border-radius: var(--radius-lg);
     background: #0f120f;
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .welcome-section__example-quote {
@@ -282,26 +170,37 @@
     font-weight: 600;
     color: #72e3a6;
 }
-.welcome-section__example-description { color: var(--text-primary); }
+
+.welcome-section__example-description {
+    color: var(--text-primary);
+}
 
 /* sizing stuff */
 @media (max-width: 768px) {
-    .welcome-section__container { 
-        padding: var(--spacing-xl) var(--spacing-lg); 
+    .welcome-section__container {
+        padding: var(--spacing-xl) var(--spacing-lg);
     }
-    .note--c, .shape--l { 
-        display: none; 
-    } /* less moving stuff on small */
+
+    .note--c,
+    .shape--l {
+        display: none;
+    }
+
+    /* less moving stuff on small */
 }
 
 @media (max-width: 480px) {
-    .shape--lg { 
-        --size: 200px; left: 4%; 
+    .shape--lg {
+        --size: 200px;
+        left: 4%;
     }
-    .shape--md { 
-        --size: 150px; right: 6%;
+
+    .shape--md {
+        --size: 150px;
+        right: 6%;
     }
-    .shape--sm { 
-        display: none; 
+
+    .shape--sm {
+        display: none;
     }
 }

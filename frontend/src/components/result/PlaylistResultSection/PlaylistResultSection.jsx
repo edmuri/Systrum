@@ -12,19 +12,19 @@ const PlaylistResultSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sentence, setSentence] = useState('');
-  
+
   const location = useLocation();
   const navigate = useNavigate();
   const rootRef = useRef(null);
 
-  function seperateCookies(cookie){
+  function seperateCookies(cookie) {
     const cookieArray = cookie.split("; ");
 
     const cookiesMap = {};
 
     cookieArray.forEach(cookie => {
       const [key, value] = cookie.split("=");
-      cookiesMap[key]=value;
+      cookiesMap[key] = value;
     })
 
     return cookiesMap;
@@ -52,10 +52,10 @@ const PlaylistResultSection = () => {
       try {
         // Get sentence from navigation state or URL params
         const sentenceFromState = location.state?.sentence;
-        const urlParams = new URLSearchParams(location.search);
+        const urlParams = new URLSearchParams(location.search); //where is this being used
         const sentenceFromUrl = urlParams.get('sentence');
         // const userIDFromUrl = urlParams.get('userID');
-        
+
         let currentSentence = sentenceFromState || sentenceFromUrl;
 
         // if(userIDFromUrl){
@@ -69,37 +69,40 @@ const PlaylistResultSection = () => {
         console.log(temp);
         let cookiesMap = {};
 
-        if(temp!=null){
+        if (temp != null) {
           cookiesMap = seperateCookies(temp);
         }
 
         console.log(cookiesMap);
 
-        if (!currentSentence & cookiesMap==null) {
+        if (!currentSentence & cookiesMap == null) {
           // console.log("Inside if");
           setError('No sentence provided');
           setLoading(false);
           return;
         }
 
-        if(!currentSentence & cookiesMap['Sentence'] != null){
+        if (!currentSentence & cookiesMap['Sentence'] != null) {
           currentSentence = cookiesMap['Sentence'];
         }
 
+        console.log("Setting Sentence");
         setSentence(currentSentence);
 
+        console.log("Making call");
         // Call backend API
         const response = await fetch(`http://localhost:5000/createPlaylist?sentence=${encodeURIComponent(currentSentence)}`);
-        
+
         if (!response.ok) {
           throw new Error('Failed to generate playlist');
         }
 
         const playlistData = await response.json();
+        console.log("SettingPlaylist");
         setPlaylist(playlistData);
         setLoading(false);
 
-        document.cookie = "Sentence" + "=" + currentSentence+ "; path=/";
+        document.cookie = "Sentence" + "=" + currentSentence + "; path=/";
 
       } catch (err) {
         console.error('Error fetching playlist:', err);
@@ -107,7 +110,7 @@ const PlaylistResultSection = () => {
         setLoading(false);
       }
     };
-    
+
     fetchPlaylist();
   }, [location]);
 
@@ -115,7 +118,7 @@ const PlaylistResultSection = () => {
     navigate('/CreatePlaylist');
   };
 
-  const handleSharePlaylist = () =>{
+  const handleSharePlaylist = () => {
 
   };
 
@@ -158,7 +161,7 @@ const PlaylistResultSection = () => {
     <section ref={rootRef} className="result-section" aria-labelledby="result-title">
       {/* Background effects */}
       <div className="result-section__bg" aria-hidden="true">
-        <div className="result-section__vignette" />
+        <div className="result-section__vignette vignette" />
       </div>
 
       <div className="result-section__shapes" aria-hidden="true">
@@ -176,9 +179,9 @@ const PlaylistResultSection = () => {
       <div className="result-section__container">
         {/* Header */}
         <header className="result-section__header">
-          <Button 
-            variant="ghost" 
-            size="small" 
+          <Button
+            variant="ghost"
+            size="small"
             onClick={handleGoBack}
             icon={ArrowLeft}
             className="back-button"
@@ -201,14 +204,14 @@ const PlaylistResultSection = () => {
 
           <div className="result-section__actions">
             <a href="http://localhost:5000/authorizeUser">
-            <Button 
-              variant="secondary" 
-              size="small" 
-              onClick={handleSharePlaylist}
-              icon={Share}
-            >
-              Share
-             </Button></a>
+              <Button
+                variant="secondary"
+                size="small"
+                onClick={handleSharePlaylist}
+                icon={Share}
+              >
+                Share
+              </Button></a>
           </div>
         </header>
 
@@ -236,17 +239,17 @@ const PlaylistResultSection = () => {
 
         {/* Footer actions */}
         <div className="result-section__footer">
-          <Button 
-            variant="primary" 
-            size="large" 
+          <Button
+            variant="primary"
+            size="large"
             onClick={handleTryAgain}
             icon={Play}
           >
             Create Another Playlist
           </Button>
-          <Button 
-            variant="secondary" 
-            size="large" 
+          <Button
+            variant="secondary"
+            size="large"
             onClick={() => navigate('/')}
           >
             Back to Home
