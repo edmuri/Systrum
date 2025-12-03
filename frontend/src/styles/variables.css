@@ -5,40 +5,24 @@
     /* Spotify brand colors */
     --spotify-green: #1db954;
     --spotify-green-hover: #1ed760;
-    --spotify-green-dark: #169c46;
     --spotify-black: #191414;
     --spotify-dark-grey: #121212;
-    --spotify-grey: #282828;
-    --spotify-light-grey: #b3b3b3;
-    --spotify-white: #ffffff;
 
     /* Neutral theme */
     --background-primary: #191414;
-    --background-secondary: #121212;
     --background-elevated: #282828;
-    --background-glass: rgba(40, 40, 40, 0.3);
     --background-card: rgba(255, 255, 255, 0.05);
 
     /* Text */
     --text-primary: #ffffff;
     --text-secondary: #b3b3b3;
     --text-muted: #727272;
-    --text-accent: #1db954;
 
     /* Borders */
     --border-primary: #404040;
-    --border-accent: #1db954;
     --border-error: #e22134;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #1db954 0%, #191414 100%);
-    --gradient-welcome: linear-gradient(135deg, #1db954 0%, #191414 50%, #1db954 100%);
-    --gradient-card: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(25, 20, 20, 0.8) 100%);
-
     /* Shadows */
-    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.5);
     --shadow-glow: 0 0 20px rgba(29, 185, 84, 0.3);
 
     /* Spacing */
@@ -51,8 +35,6 @@
     --spacing-3xl: 4rem;
 
     /* Radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
     --radius-lg: 12px;
     --radius-xl: 16px;
     --radius-2xl: 24px;
@@ -65,10 +47,6 @@
     --text-lg: 1.125rem;
     --text-xl: 1.25rem;
     --text-2xl: 1.5rem;
-    --text-3xl: 1.875rem;
-    --text-4xl: 2.25rem;
-    --text-5xl: 3rem;
-    --text-6xl: 4rem;
 
     /* Fonts */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -78,35 +56,9 @@
     --font-normal: 400;
     --font-medium: 500;
     --font-semibold: 600;
-    --font-bold: 700;
 
     /* Transitions */
     --transition-fast: 150ms ease-in-out;
     --transition-normal: 250ms ease-in-out;
-    --transition-slow: 400ms ease-in-out;
 
-    /* Z-index */
-    --z-dropdown: 1000;
-    --z-sticky: 1020;
-    --z-fixed: 1030;
-    --z-modal-backdrop: 1040;
-    --z-modal: 1050;
-    --z-popover: 1060;
-    --z-tooltip: 1070;
-
-    /* Pastel palette: fonts */
-    --pastel-font-pink: #ffb3ba;
-    --pastel-font-orange: #ffdfba;
-    --pastel-font-yellow: #ffffba;
-    --pastel-font-green: #baffc9;
-    --pastel-font-blue: #bae1ff;
-    --pastel-font-purple: #e0baff;
-
-    /* Pastel palette: backgrounds/other */
-    --pastel-bg-pink: #ffe5ec;
-    --pastel-bg-orange: #fff2e6;
-    --pastel-bg-yellow: #fffde6;
-    --pastel-bg-green: #e6ffed;
-    --pastel-bg-blue: #e6f7ff;
-    --pastel-bg-purple: #f3e6ff;
 }

@@ -9,11 +9,9 @@
         radial-gradient(900px 600px at 50% -10%, rgba(114, 227, 166, 0.14), transparent 55%),
         radial-gradient(600px 300px at 10% 90%, rgba(114, 227, 166, 0.07), transparent 60%);
 }
-
 /* Common Shapes */
 .shape {
     --size: 200px;
-    /* default */
     position: absolute;
     width: var(--size);
     height: var(--size);
@@ -22,36 +20,29 @@
     filter: blur(25px);
     will-change: transform, opacity;
 }
-
 /* Sizing for bubbles */
 .shape--lg {
     --size: clamp(220px, 28vw, 360px);
 }
-
 .shape--md {
     --size: clamp(160px, 20vw, 260px);
 }
-
 .shape--sm {
     --size: clamp(120px, 16vw, 200px);
 }
-
 /* Placement */
 .shape--tl {
     top: 6%;
     left: 6%;
 }
-
 .shape--br {
     right: 10%;
     bottom: 10%;
 }
-
 .shape--l {
     top: 55%;
     left: 18%;
 }
-
 /* Common Notes */
 .note {
     position: absolute;
@@ -62,72 +53,57 @@
     transform: translateZ(0);
     will-change: transform, opacity;
 }
-
 .note--a {
     top: 18%;
     left: 12%;
 }
-
 .note--b {
     bottom: 22%;
     right: 16%;
 }
-
 .note--c {
     top: 58%;
     right: 34%;
 }
-
 /* Animations */
 @keyframes bubbleBob {
-
     0%,
     100% {
         transform: translate3d(0, 0, 0) scale(1);
         opacity: .85;
     }
-
     50% {
         transform: translate3d(0, -16px, 0) scale(1.04);
         opacity: 1;
     }
 }
-
 @keyframes noteFloat {
-
     0%,
     100% {
         transform: translate3d(0, 0, 0) scale(1);
         opacity: .10;
     }
-
     50% {
         transform: translate3d(0, -10px, 0) scale(1.06);
         opacity: .18;
     }
 }
-
 /* Animation Classes */
 .animate .shape--tl {
     animation: bubbleBob 18s ease-in-out infinite;
 }
-
 .animate .shape--br {
     animation: bubbleBob 20s ease-in-out infinite reverse;
 }
-
 .animate .shape--l {
     animation: bubbleBob 22s ease-in-out infinite;
 }
-
 .animate .note--a {
     animation: noteFloat 12s ease-in-out infinite;
 }
-
 .animate .note--b {
     animation: noteFloat 14s ease-in-out infinite .6s;
 }
-
 .animate .note--c {
     animation: noteFloat 16s ease-in-out infinite 1.2s reverse;
 }
