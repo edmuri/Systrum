@@ -19,7 +19,11 @@
 
 ---  
 
-A new interactive way to create spotify playlists! Just put in a sentence that you want to represent and our application will map out each word to a song for you to listen to on a new playlist! Discover new songs by inputting creative outlandish sentences, or create a message to send out to your friends!
+### What is Systrum?
+
+A new interactive way to create spotify playlists!  
+Just put in a sentence that you want to represent and our application will map out each word to a song for you to listen to on a new playlist!  
+Discover new songs by inputting creative outlandish sentences, or create a message to send out to your friends!
 
 <div align="center">
     <img src="./public/Systrum_landing.png">
@@ -38,10 +42,8 @@ This was inspired by the twitter trend of indirect messages through your playlis
 ## How to Use
 
 #### Backend
-Get a set of credentials from Spotify Developers API at https://developer.spotify.com/documentation/web-api?r_done=1
-
-You can put the client_id and client_secret into a .env file and insert that into your backend folder.
-
+Get a set of credentials from Spotify Developers API at https://developer.spotify.com/documentation/web-api?r_done=1  
+You can put the client_id and client_secret into a .env file and insert that into your backend folder.  
 You can now run the program using these commands
 
 Windows:
