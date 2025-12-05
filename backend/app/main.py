@@ -61,7 +61,7 @@ def generatePlaylist():
 
         #if song is found then this will skip to the next word
         if len(song_matches_from_db) > 0:
-            print("song found in db")
+            # print("song found in db")
 
             #adding to create a results list to return
             # need to 

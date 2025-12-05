@@ -1,8 +1,8 @@
 <div align="center">
-
+<img src="./public/Systrum_Full.svg">
 </div>
 
-<h1 align="center">Systrum</h1>
+<!-- <h1 align="center">Systrum</h1> -->
 
 <div align="center">
 

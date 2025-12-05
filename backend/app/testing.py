@@ -120,7 +120,7 @@ def get_top_songs(token):
     headers = get_auth_header(token)
     result = get(url,headers=headers)
     json_result = json.loads(result.content)
-    print("HELLLOOOOOO\n\n\n")
+    # print("HELLLOOOOOO\n\n\n")
     print(json_result["items"][0]["album"]['name'])
     print("\n")
     print(json_result["items"][0]['artists'][0]['id'])
