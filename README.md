@@ -42,49 +42,13 @@ This was inspired by the twitter trend of indirect messages through your playlis
 
 ## How to Use
 
-#### Backend
 Get a set of credentials from Spotify Developers API at https://developer.spotify.com/documentation/web-api?r_done=1  
 You can put the client_id and client_secret into a .env file and insert that into your backend folder.  
-You can now run the program using these commands
+You can now run the program using these 
 
-Windows:
-```bash
-    cd backend
-    python -m venv env
-    .\env\Scripts\activate
-    pip install -r requirements.txt
-    cd app 
-    python init_db.py
-    set FLASK_APP=main.py
-    flask --app main.py --debug run
 ```
-
-Mac:
-```bash
-    cd backend
-    python3 -m venv env
-    source env/bin/activate
-    pip install -r requirements.txt 
-    cd app 
-    python3 init_db.py
-    set FLASK_APP=main.py
-    flask --app main.py --debug run
+docker compose up --build
 ```
-
-#### Frontend
-In a second terminal run:
-
-```bash
-    cd frontend
-    npm install
-    npm run dev
-```
-
-## Future Plans
-
-- Genre filtering  
-- Deployment
- 
 
 ## Contributors
 

@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 app.config['DATABASE'] = os.path.join(BASE_DIR, 'database.db')
-
+frontend = os.getenv('frontend_url')
 CORS(app, supports_credentials=True)
 
 #create the node class that will hold the word and combinations
@@ -126,9 +126,7 @@ Call that leads to users being redirected to spotify's authentication
 '''
 @app.route('/authorizeUser')
 def authorize():
-    # print("IN AUTH")
     link = calls.authorize_user()
-    # print("OUTSITE LINK")
     return redirect(link)
 
 '''
@@ -142,7 +140,7 @@ def handle_callback():
     # print("INSIDE CALLBACK")
     # print(userID)
 
-    response = make_response(redirect('http://localhost:3000/PlaylistResult'))
+    response = make_response(redirect(f'{frontend}/PlaylistResult'))
     response.headers['user_id'] = userID
     return response
 
@@ -158,6 +156,13 @@ def send_playlist():
 def get_info():
     db.execute("SELECT * FROM DEVS")
     return
+
+@app.route('/clear')
+def clear():
+    db = get_db()
+    db.execute('DELETE FROM tokens')
+    db.commit()
+    return 'done'
 
 
 

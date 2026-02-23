@@ -242,8 +242,9 @@ def authorize_user():
 
     full_query = endpoint + urlencode(query_string)
     
-    response = get(full_query)
-    return response.url
+    # response = get(full_query)
+    # return response.url
+    return full_query
 
 '''
     This is where the user is redirected to once they authorize the spotify interaction.
@@ -268,10 +269,24 @@ def set_user_token(code):
         "Authorization": "Basic " + Authorization,
         "Content-Type":"application/x-www-form-urlencoded"
     }
-    print("Trying to get access code")
+    print("DEBUG: Trying to get access code from auth code:",code, flush=True)
     response = post(url=endpoint, params=data, headers=header)
-   
+
+    #debug statement
+    print("******************************DEBUG******************************")
+    print("Came back from response with the following:\n")
+    print(response)
+    print("\n\n")
+    print("******************************DEBUG******************************")
+
     results = json.loads(response.content)
+
+    print("******************************DEBUG******************************")
+    print("Came back from response json with the following:\n")
+    print(results)
+    print("\n\n")
+    print("******************************DEBUG******************************")
+
 
     access_token = results["access_token"]
     refresh_token = results["refresh_token"]
@@ -285,9 +300,31 @@ def set_user_token(code):
 
     id_response = get(id_endpoint,headers=id_header)
 
-    id_result = json.loads(id_response.content)
+    print("******************************DEBUG******************************")
+    print("Came back from id_response with the following:\n")
+    print(id_response.status_code)
+    print(id_response.text)
+    print("\n\n")
+    print("******************************DEBUG******************************")
+
+    try:
+        id_result = json.loads(id_response.content)
+    except Exception as e:
+        print("DEBUG CANNOT PARSE INTO JSON", e, flush=True)
+
+    print("******************************DEBUG******************************")
+    print("Came back from id_response to json with the following:\n")
+    print(id_result,flush=True )
+    print("\n\n")
+    print("******************************DEBUG******************************")
 
     spotify_id = id_result["id"]
+
+    print("******************************DEBUG******************************")
+    print("Attempting to print the user id as the following:\n")
+    print(spotify_id,flush=True )
+    print("\n\n")
+    print("******************************DEBUG******************************")
 
     db=get_db()
 
