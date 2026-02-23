@@ -148,9 +148,8 @@ def handle_callback():
 def send_playlist():
     user_id = request.args.get("id")
     list = request["playlist"]
-    calls.send_playlist(user_id, list)
-
-    return
+    status = calls.send_playlist(user_id, list)
+    return status
 
 @app.route('/pullStats',methods=['GET'])
 def get_info():

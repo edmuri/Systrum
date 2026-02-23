@@ -164,7 +164,7 @@ def get_client_credentials():
 def search_for_song(name, offset):
     # print("in call", name)
     if offset >= 300:
-        print("Cannot find word")
+        print("DEBUG: Cannot find word that matches")
         return None
 
     token = get_client_credentials()
@@ -279,7 +279,22 @@ def set_user_token(code):
     print("\n\n")
     print("******************************DEBUG******************************")
 
-    results = json.loads(response.content)
+    if response.status_code != 200:
+        match(response.status_code):
+            case 400:
+                return {400,'Bad request, permissions wonky'}
+            case 403:
+                return {403,'Error accessing account.'}
+            case 500:
+                return {500,'There was a crash'}
+
+    ##If the code does not return from a bad request, we will continue
+
+    try:
+        results = json.loads(response.content)
+    except Exception as e:
+        print("DEBUG: UNABLE TO PARSE INTO JSON\n\nReturning NOW")
+        return {500, e}
 
     print("******************************DEBUG******************************")
     print("Came back from response json with the following:\n")
@@ -306,11 +321,21 @@ def set_user_token(code):
     print(id_response.text)
     print("\n\n")
     print("******************************DEBUG******************************")
-
+    
+    if id_response.status_code != 200:
+        match(id_response.status_code):
+            case 400:
+                return {400,'Bad request, permissions wonky'}
+            case 403:
+                return {403,'Error accessing account.'}
+            case 500:
+                return {500,'There was a crash'}
+            
     try:
         id_result = json.loads(id_response.content)
     except Exception as e:
         print("DEBUG CANNOT PARSE INTO JSON", e, flush=True)
+        return {500, "CANNOT PARSE TO JSON"}
 
     print("******************************DEBUG******************************")
     print("Came back from id_response to json with the following:\n")
@@ -330,14 +355,16 @@ def set_user_token(code):
 
     user_id = db.execute('SELECT user_id FROM tokens WHERE spotify_id LIKE ?',(spotify_id,)).fetchone()
 
+    #If user exists in DB
     if(user_id is not None):
         return user_id[0]
 
+    # If user does not exist, make new entry
     db.execute('INSERT INTO tokens (access_token, refresh_token, spotify_id, is_logged_in) VALUES (?,?,?,?)',
                             (access_token,refresh_token,spotify_id,1))
     db.commit()
     user_id = db.execute('SELECT user_id FROM tokens WHERE spotify_id = ?', (spotify_id,)).fetchone()
-    
+    db.commit()
 
     # return user_id
     return user_id[0]
@@ -360,8 +387,22 @@ def create_empty_playlist(user_id,sentence):
     }
 
     request = post(url=endpoint,headers=header,params=data)
-    results=json.loads(request.content)
-    return results["id"]
+    if request.status_code != 200:
+        match(request.status_code):
+            case 400:
+                return {400,'Bad request, permissions wonky'}
+            case 403:
+                return {403,'Error accessing account.'}
+            case 500:
+                return {500,'There was a crash'}
+    try:
+        results=json.loads(request.content)
+    except Exception as e:
+        print("\n\nUNABLE TO PARSE INTO JSON\n\nERROR:",e,flush=True)
+        return {500, "Unable to parse into json"}
+    
+    #returns the playlist Id so we can loop through and add the songs
+    return {200,results["id"]}
 
 '''
     This is what we will use to create the playlist for the user and send it to their account
@@ -370,6 +411,8 @@ def create_empty_playlist(user_id,sentence):
 def send_playlist(user_id, list):
    sentence = list["sentence"]
    playlist_id = create_empty_playlist(user_id, sentence)
+   if playlist_id[0]!=200:
+       return 500
    
    endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
@@ -386,7 +429,7 @@ def send_playlist(user_id, list):
 
    response = post(endpoint, headers=header, params=data)
 
-   return
+   return 200
 
 
 
