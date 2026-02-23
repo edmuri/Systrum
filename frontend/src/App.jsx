@@ -6,7 +6,6 @@ This is going to contain all the different possible pages
 import LandingPage from "./Pages/LandingPage";
 import CreatePlaylistPage from "./Pages/CreatePlaylistPage";
 import PlaylistResultPage from "./Pages/PlaylistResultPage";
-import AboutPage from "./Pages/AboutPage";
 
 // import PlaylistPage from "./Pages/PlaylistPage";
 import React from "react";
@@ -20,7 +19,6 @@ function App(){
             <Route path="/" element = {<LandingPage />} />
             <Route path="/CreatePlaylist" element = {<CreatePlaylistPage/>}/>
             <Route path="/PlaylistResult" element = {<PlaylistResultPage/>}/>
-            <Route path="/AboutPage" element = {<AboutPage />} />
         </Routes>
         </BrowserRouter>
     );
