@@ -412,7 +412,7 @@ def send_playlist(user_id, list):
    sentence = list["sentence"]
    playlist_id = create_empty_playlist(user_id, sentence)
    if playlist_id[0]!=200:
-       return 500
+       return {500, "CANNOT CREATE PLAYLIST"}
    
    endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
@@ -425,11 +425,18 @@ def send_playlist(user_id, list):
    data = {
        "uris": list["songs"]
    }
-
-
+   
    response = post(endpoint, headers=header, params=data)
+   if response.status_code != 200:
+        match(response.status_code):
+            case 400:
+                return {400,'Bad request, permissions wonky'}
+            case 403:
+                return {403,'Error accessing account.'}
+            case 500:
+                return {500,'There was a crash'}
 
-   return 200
+   return {200, "YAYYYYY"}
 
 
 
