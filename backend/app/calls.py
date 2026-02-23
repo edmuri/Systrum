@@ -20,7 +20,7 @@ app = Flask(__name__)
 CORS(app)
 
 #fetching the api credentials for the calls
-load_dotenv()
+# load_dotenv()
 ID = os.getenv('clientID')
 Secret = os.getenv('clientSecret')
 Redirect = "http://127.0.0.1:5000/callback"
@@ -50,7 +50,7 @@ def normalize(string):
     return newString
 
 def checkformatch(word, string):
-    if normalize(word)==normalize(string):
+    if word==string:
         return True
     else:
         return False
@@ -195,11 +195,12 @@ def search_for_song(name, offset):
 
     tmp = song_result["tracks"]["items"] #gives me the array of 50
     print("looking for", name)
+    normalizedName = normalize(name)
     for song in tmp:
         songName = song['name']
         
-        if(checkformatch(songName,name)):
-            print(songName,name)
+        if(checkformatch(songName,normalizedName)):
+            print(songName,normalizedName)
             url = song["external_urls"]["spotify"]
             albumCover = song["album"]["images"][0]['url']
             id = song["id"]
@@ -207,7 +208,7 @@ def search_for_song(name, offset):
             album = song["album"]['name']
 
             results = {
-                "word":normalize(name),
+                "word":normalizedName,
                 "name":songName,
                 "artist": artist,
                 "album" : album,

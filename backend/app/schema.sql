@@ -1,4 +1,4 @@
-CREATE TABLE songs(
+CREATE TABLE IF NOT EXISTS songs(
     album TEXT NOT NULL,
     artist TEXT NOT NULL,
     id TEXT PRIMARY KEY NOT NULL,
@@ -7,13 +7,13 @@ CREATE TABLE songs(
     url TEXT NOT NULL
 );
 
-CREATE TABLE covers(
+CREATE TABLE IF NOT EXISTS covers(
     album TEXT NOT NULL,
     artist TEXT NOT NULL,
     link TEXT NOT NULL
 );
 
-CREATE TABLE tokens(
+CREATE TABLE IF NOT EXISTS tokens(
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     spotify_id TEXT NOT NULL,
     access_token TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE tokens(
     is_logged_in INT NOT NULL
 );
 
-CREATE TABLE contact(
+CREATE TABLE IF NOT EXISTS contact(
     name TEXT,
     role TEXT,
     github TEXT,

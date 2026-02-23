@@ -5,7 +5,7 @@
 
 import sqlite3
 
-connection = sqlite3.connect('database.db')
+connection = sqlite3.connect('database.db', check_same_thread=False)
 
 # To set up the sqlite database
 with open('schema.sql') as f:
