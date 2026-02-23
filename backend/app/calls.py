@@ -74,6 +74,13 @@ def refresh_token(user_id):
     ACCESS DB FOR refresh token
     
     '''
+
+    db = get_db()
+    refresh_token= db.exectute('SELECT refresh_token FROM tokens WHERE user_id=?',(user_id,)).fetchone()
+
+    if refresh_token is None:
+        return 500
+    
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization":f"Basic {encode_to_64(ID + ':' + Secret)}"
@@ -89,6 +96,8 @@ def refresh_token(user_id):
     if response.status_code == 200:
         #update the access token and refresh token for that user
         # return results["access_token"]
+        db.exectute('INSERT INTO tokens (access_token, refresh_token) VALUES (?,?) WHERE user_id=?',(results['access_token'],results['refresh_token'],user_id,))
+        db.commit()
         return 200
     else:
         return 403
