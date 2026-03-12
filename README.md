@@ -54,7 +54,6 @@ docker compose up --build
 
 [![Eduardo](https://img.shields.io/badge/Eduardo_Murillo-313030?style=for-the-badge&logo=github&logoColor=white)](https://github.com/edmuri)
 [![Claudia](https://img.shields.io/badge/Claudia_Varnas-90407E?style=for-the-badge&logo=github&logoColor=white)](https://github.com/cl-py)
-[![Julia](https://img.shields.io/badge/Julia_Bowman-B6D0E2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/juliafbowman)
 [![Basil](https://img.shields.io/badge/Basil_Tiongson-9A290F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/basiltiongson0)
 
 
